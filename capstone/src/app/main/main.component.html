@@ -1,1 +1,18 @@
-<p>main works!</p>
+<main>
+    <header class="header">
+        <button (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
+        <button><mat-icon fontIcon="add"></mat-icon></button>
+        <button><mat-icon fontIcon="refresh"></mat-icon></button>
+        <button>Scan Devices</button>
+        <mat-form-field>
+            <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+            <input matInput placeholder="search for devices...">
+        </mat-form-field>
+    </header>
+    <mat-drawer-container class="drawer">
+        <mat-drawer mode="side" #drawer opened>
+            Inventory <br> Vulnerabilities <br> Tutorial <br>
+        </mat-drawer>
+        <mat-drawer-content>Main content</mat-drawer-content>
+    </mat-drawer-container>
+</main>
