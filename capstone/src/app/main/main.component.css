@@ -1,9 +1,29 @@
-.drawer {
-    width: auto;
+.main {
     height: 200px;
+}
+
+.drawer {
+    background: #03A9F4;
+    width: 15vmin;
 }
 
 .header {
     background: #03A9F4;
-    height: 50px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    padding-right: 30px;
+}
+
+.leftbox{
+    display:flex;
+    width:20vmin;
+    justify-content: space-between;
+}
+
+.rightbox{
+    display:flex;
+    justify-content: space-around;
+    align-items: baseline;
+    width:60vmin;
 }

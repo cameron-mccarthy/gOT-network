@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Device } from './device';
+import { Device } from './interfaces/device';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,10 @@ export class DevicesService {
     return this.deviceList;
   }
 
-  getDeviceByIP(): Device {
-    return this.deviceList[0]
+  getDeviceByIP(ip: string): Device | null {
+    for (let device of this.deviceList){
+      if (device.IP === ip) return device;
+    }
+    return null;
   }
 }

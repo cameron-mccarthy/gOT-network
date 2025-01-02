@@ -1,18 +1,22 @@
-<main>
-    <header class="header">
-        <button (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
-        <button><mat-icon fontIcon="add"></mat-icon></button>
-        <button><mat-icon fontIcon="refresh"></mat-icon></button>
-        <button>Scan Devices</button>
+<header class="header">
+    <section class="leftbox">
+        <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
+        <button mat-fab><mat-icon fontIcon="add"></mat-icon></button>
+    </section>
+    <section class="rightbox">
+        <button mat-fab><mat-icon fontIcon="refresh"></mat-icon></button>
+        <button mat-raised-button>Scan Devices</button>
         <mat-form-field>
             <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
             <input matInput placeholder="search for devices...">
         </mat-form-field>
-    </header>
-    <mat-drawer-container class="drawer">
-        <mat-drawer mode="side" #drawer opened>
+    </section>
+</header>
+<main>
+    <mat-drawer-container class="main">
+        <mat-drawer class="drawer" mode="side" #drawer opened>
             Inventory <br> Vulnerabilities <br> Tutorial <br>
         </mat-drawer>
-        <mat-drawer-content>Main content</mat-drawer-content>
+        <mat-drawer-content><app-device-table></app-device-table></mat-drawer-content>
     </mat-drawer-container>
 </main>
