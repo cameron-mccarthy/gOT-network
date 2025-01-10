@@ -1,1 +1,34 @@
-<p>device-table works!</p>
+<table mat-table [dataSource]="data">
+    <ng-container matColumnDef="Vendor">
+        <th mat-header-cell *matHeaderCellDef> Vendor </th>
+        <td mat-cell *matCellDef="let element"> {{element.Vendor}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="IP">
+        <th mat-header-cell *matHeaderCellDef> IP </th>
+        <td mat-cell *matCellDef="let element"> {{element.IP}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="MAC">
+        <th mat-header-cell *matHeaderCellDef> MAC </th>
+        <td mat-cell *matCellDef="let element"> {{element.MAC}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Product">
+        <th mat-header-cell *matHeaderCellDef> Prodcut </th>
+        <td mat-cell *matCellDef="let element"> {{element.Product}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+</table>
