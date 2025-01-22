@@ -1,9 +1,6 @@
 insert cards
 
-<mat-card appearance="outlined">
-    <mat-card-content>Simple card</mat-card-content>
-  </mat-card>
-
-<mat-card>
-    <mat-card-content>{{vulnList}}</mat-card-content>
-</mat-card>
+<app-vulnerability-card
+*ngFor = "let thing of vulnList"
+  [card]="thing">
+</app-vulnerability-card>
