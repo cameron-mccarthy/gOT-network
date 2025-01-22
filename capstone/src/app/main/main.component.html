@@ -15,7 +15,7 @@
 <main>
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
-            Inventory <br> Vulnerabilities <br> Tutorial <br>
+            <a [routerLink]="['']">Inventory</a> <br> <a [routerLink]="['vulnerabilities']">Vulnerabilities</a> <br><a [routerLink]="['tutorial']">Tutorial</a>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
     </mat-drawer-container>
