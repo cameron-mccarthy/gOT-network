@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Device } from './interfaces/device';
+import { Vulnerability } from './interfaces/vulnerability';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,18 @@ export class DevicesService {
       if (device.IP === ip) return device;
     }
     return null;
+  }
+}
+
+
+export class VulnerabilitiesService{
+  vulnList: Vulnerability[];
+  constructor(){
+    this.vulnList = [{description: "vuln1", link: "link-vuln1.com"},
+      {description: "vuln2", link: "link-vuln2.come"}];
+  }
+
+  getAllVulns(): Vulnerability[]{
+    return this.vulnList;
   }
 }
