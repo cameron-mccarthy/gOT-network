@@ -32,8 +32,8 @@ export class VulnerabilitiesService{
   vulnList: Vulnerability[];
   constructor(){
     this.vulnList = [
-      {description: "vuln2", link: "https://material.angular.io/components/card/overview"},
-      {description: "vuln3", link: "vuln3.com"}
+      {device : {IP: "198.164.14.13", MAC: "00-B0-D0-63-C2-26", Vendor: "Dell", Product: "Product", Type: "PLC", Status: "Active"}, description: "vuln2", link: "https://material.angular.io/components/card/overview"},
+      {device : {IP: "198.164.14.12", MAC: "00-B0-D0-63-C2-16", Vendor: "Dell", Product: "Product2", Type: "PLC", Status: "Active"}, description: "vuln3", link: "vuln3.com"}
     ];
   }
 
