@@ -11,17 +11,11 @@ import { VulnerabilityCardComponent } from '../vulnerability-card/vulnerability-
   templateUrl: './vulnerabilities.component.html',
   styleUrl: './vulnerabilities.component.css'
 })
-export class VulnerabilitiesComponent {
-  /*data: Vulnerability[];
-  constructor(public VulnService: VulnerabilitiesService){
-    this.data = this.VulnService.getAllVulns()
-  }*/
- 
-  vulnList = [
-      {description: "vuln2", link: "https://material.angular.io/components/card/overview"},
-      {description: "vuln3", link: "vuln3.com"}
-  ];
 
- constructor(){}
-  
+export class VulnerabilitiesComponent {
+  vulnList : Vulnerability[];
+ constructor(public VulnService: VulnerabilitiesService){
+  this.vulnList = this.VulnService.getAllVulns();
+  console.log(this.vulnList)
+ }
 }

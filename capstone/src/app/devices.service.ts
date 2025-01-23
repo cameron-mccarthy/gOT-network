@@ -25,12 +25,16 @@ export class DevicesService {
   }
 }
 
-
+@Injectable({
+  providedIn: 'root'
+})
 export class VulnerabilitiesService{
   vulnList: Vulnerability[];
   constructor(){
-    this.vulnList = [{description: "vuln1", link: "link-vuln1.com"},
-      {description: "vuln2", link: "link-vuln2.come"}];
+    this.vulnList = [
+      {description: "vuln2", link: "https://material.angular.io/components/card/overview"},
+      {description: "vuln3", link: "vuln3.com"}
+    ];
   }
 
   getAllVulns(): Vulnerability[]{
