@@ -16,10 +16,10 @@ export class VulnerabilitiesComponent {
   constructor(public VulnService: VulnerabilitiesService){
     this.data = this.VulnService.getAllVulns()
   }*/
- vul =  {description: "vuln2", link: "vuln2.com"};
+ 
   vulnList = [
-      {description: "vuln2", link: "vuln2.com"},
-      {description: "v3", link: "link.com"}
+      {description: "vuln2", link: "https://material.angular.io/components/card/overview"},
+      {description: "vuln3", link: "vuln3.com"}
   ];
 
  constructor(){}
