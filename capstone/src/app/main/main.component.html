@@ -1,14 +1,14 @@
 <header class="header">
     <section class="leftbox">
         <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
-        <button mat-fab><mat-icon fontIcon="add"></mat-icon></button>
+        <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
     </section>
     <section class="rightbox">
-        <button mat-fab><mat-icon fontIcon="refresh"></mat-icon></button>
-        <button mat-raised-button>Scan Devices</button>
+        <button mat-fab (click)="refresh()"><mat-icon fontIcon="refresh"></mat-icon></button>
+        <button mat-raised-button (click)="scan()">Scan Devices</button>
         <mat-form-field>
             <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
-            <input matInput placeholder="search for devices...">
+            <input matInput [(ngModel)]="searchText" (keydown.enter)="search()" placeholder="search for devices...">
         </mat-form-field>
     </section>
 </header>
