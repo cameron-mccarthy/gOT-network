@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
-import { MatSidenavModule} from '@angular/material/sidenav';
-import { MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { Component, inject } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DevicesService } from '../devices.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
 
 @Component({
   selector: 'app-main',
@@ -14,21 +17,26 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  readonly dialog = inject(MatDialog);
   searchText!: string;
-
-  scan(){
+  constructor(DevicesService: DevicesService) {
+  }
+  scan() {
     console.log("scan")
   }
 
-  add(){
-    console.log("add")
+  add() {
+    const dialogRef = this.dialog.open(AddDeviceDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("closed")
+    })
   }
 
-  refresh(){
+  refresh() {
     console.log("refresh")
   }
 
-  search(){
+  search() {
     console.log(this.searchText)
   }
 

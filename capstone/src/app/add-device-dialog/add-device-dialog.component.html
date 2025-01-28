@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Add Device</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Enter IP address</mat-label>
+    <input matInput [(ngModel)]="newDevice.IP" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="close()">Add</button>
+  </mat-dialog-actions>
