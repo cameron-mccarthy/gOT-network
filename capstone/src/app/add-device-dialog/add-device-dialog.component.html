@@ -1,10 +1,28 @@
 <h2 mat-dialog-title>Add Device</h2>
 <mat-dialog-content>
+  <section>
   <mat-form-field>
-    <mat-label>Enter IP address</mat-label>
-    <input matInput [(ngModel)]="newDevice.IP" />
+    <mat-label >Enter IP address</mat-label>
+    <input [formControl]="ipAddressControl" required matInput [(ngModel)]="newDevice.IP">
+    @if (ipAddressControl.hasError('pattern')) {
+      <mat-error>Please enter a valid IP address</mat-error>
+    }
   </mat-form-field>
+</section>
+  <section><mat-form-field>
+    <mat-label>Enter MAC address</mat-label>
+    <input required [formControl]="macAddressControl" matInput [(ngModel)]="newDevice.MAC">
+    @if (macAddressControl.hasError('pattern')) {
+      <mat-error>Please enter a valid MAC address</mat-error>
+    }
+  </mat-form-field>
+</section>
+  <mat-form-field>
+    <mat-label>Enter Prodcut</mat-label>
+    <input required matInput [(ngModel)]="newDevice.Product">
+  </mat-form-field>
+
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="close()">Add</button>
+    <button mat-button [disabled] = "check()" (click)="close()">Add</button>
   </mat-dialog-actions>

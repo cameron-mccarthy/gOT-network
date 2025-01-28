@@ -28,7 +28,9 @@ export class MainComponent {
   add() {
     const dialogRef = this.dialog.open(AddDeviceDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log("closed")
+      if (result){
+        console.log(result)
+      }
     })
   }
 
