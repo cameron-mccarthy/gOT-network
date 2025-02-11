@@ -1,1 +1,30 @@
-<p>tutorial works!</p>
+<div class="tutorial-page">
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h2>Table of Contents</h2>
+      <ul>
+        <li><a [routerLink]="['/tutorial']" fragment="section1">Section 1: Introduction</a></li>
+        <li><a [routerLink]="['/tutorial']" fragment="section2">Section 2: Inventory</a></li>
+        <li><a [routerLink]="['/tutorial']" fragment="section3">Section 3: Vulnerabilties</a></li>
+      </ul>
+    </div>
+  
+    <!-- Sections -->
+    <div class="content">
+      <section id="section1">
+        <h3>Section 1: Introduction</h3>
+        <p>Product Overview</p>
+      </section>
+
+      <section id="section2">
+        <h3>Section 2: Inventory</h3>
+        <p>Inventory page tutorial</p>
+      </section>
+
+      <section id="section3">
+        <h3>Section 3: Vulnerabilties</h3>
+        <p>Vulnerabilities page tutorial</p>
+      </section>
+    </div>
+  </div>
+  

@@ -1,0 +1,43 @@
+.toc {
+    position: sticky;
+    background: #f8f9fa;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .toc ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .toc li {
+    margin: 0.5rem 0;
+  }
+  
+  .toc a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .toc a:hover {
+    text-decoration: underline;
+  }
+  
+  .content section {
+    padding: 1.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #ffffff;
+  }
+  
+  .content section h3 {
+    margin-top: 0;
+  }
+  
+  .content {
+    font-family: Arial, sans-serif;
+  }
+  

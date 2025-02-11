@@ -3,8 +3,8 @@
 }
 
 .drawer {
-    background: #03A9F4;
-    width: 15vmin;
+    background: #57c5f7;
+    width: 19vmin;
 }
 
 .header {
@@ -17,7 +17,7 @@
 
 .leftbox{
     display:flex;
-    width:20vmin;
+    width:21vmin;
     justify-content: space-between;
 }
 
@@ -25,5 +25,5 @@
     display:flex;
     justify-content: space-around;
     align-items: baseline;
-    width:60vmin;
+    width:80vmin;
 }
