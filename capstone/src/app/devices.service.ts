@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Device } from './interfaces/device';
 import { Vulnerability } from './interfaces/vulnerability';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevicesService {
-  deviceList: Device [];
-
+  deviceList:Device[] = [{IP: "198.164.14.13", MAC: "00-B0-D0-63-C2-26", Vendor: "Dell", Product: "Product", Type: "PLC", Status: "Active"}, 
+    {IP: "198.164.14.12", MAC: "00-B0-D0-63-C2-16", Vendor: "Dell", Product: "Product2", Type: "PLC", Status: "Active"}];
+  devicesSubject = new BehaviorSubject<Device[]>(this.deviceList);
+  deviceObservable: Observable<Device[]> = this.devicesSubject.asObservable()
   constructor() { 
-    this.deviceList = [{IP: "198.164.14.13", MAC: "00-B0-D0-63-C2-26", Vendor: "Dell", Product: "Product", Type: "PLC", Status: "Active"}, 
-      {IP: "198.164.14.12", MAC: "00-B0-D0-63-C2-16", Vendor: "Dell", Product: "Product2", Type: "PLC", Status: "Active"}];
   }
 
-  getAllDevices(): Device[]{
-    return this.deviceList;
+  getAllDevices(): Observable<Device[]>{
+    return this.deviceObservable
   }
 
   getDeviceByIP(ip: string): Device | null {
@@ -22,6 +23,10 @@ export class DevicesService {
       if (device.IP === ip) return device;
     }
     return null;
+  }
+  addDevice(newDevice: Device){
+    this.deviceList.push(newDevice)
+    this.devicesSubject.next([...this.deviceList])
   }
 }
 

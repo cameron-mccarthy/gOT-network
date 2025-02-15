@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DevicesService } from '../devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
+import { Device } from '../interfaces/device';
 
 @Component({
   selector: 'app-main',
@@ -19,17 +20,17 @@ import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog
 export class MainComponent {
   readonly dialog = inject(MatDialog);
   searchText!: string;
-  constructor(DevicesService: DevicesService) {
+  constructor(public DevicesService: DevicesService) {
   }
   scan() {
-    console.log("scan")
+    console.log("scan");
   }
 
   add() {
     const dialogRef = this.dialog.open(AddDeviceDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        console.log(result)
+        this.DevicesService.addDevice(result);
       }
     })
   }
