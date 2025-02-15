@@ -15,7 +15,9 @@
 <main>
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
-            <a [routerLink]="['']">Inventory</a> <br> <a [routerLink]="['vulnerabilities']">Vulnerabilities</a> <br><a [routerLink]="['tutorial']">Tutorial</a>
+                <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
+                <button class="sidebutton" mat-button [routerLink]="['vulnerabilities']">Vulnerabilities</button>
+                <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
     </mat-drawer-container>

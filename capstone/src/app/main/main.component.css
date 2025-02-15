@@ -3,8 +3,11 @@
 }
 
 .drawer {
-    background: #57c5f7;
+    background: #03A9F4;
     width: 19vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .header {
@@ -15,15 +18,21 @@
     padding-right: 30px;
 }
 
-.leftbox{
-    display:flex;
-    width:21vmin;
+.leftbox {
+    display: flex;
+    width: 21vmin;
     justify-content: space-between;
 }
 
-.rightbox{
-    display:flex;
+.rightbox {
+    display: flex;
     justify-content: space-around;
     align-items: baseline;
-    width:80vmin;
+    width: 80vmin;
+}
+
+.sidebutton {
+    width: 100%;
+    font-size: 13pt;
+    color: #252525 !important;
 }

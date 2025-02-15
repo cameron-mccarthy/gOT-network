@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { DevicesService } from '../devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
-import { Device } from '../interfaces/device';
 
 @Component({
   selector: 'app-main',
