@@ -26,7 +26,7 @@ export class HeaderComponent {
 
   scan() {
     console.log("scan");
-    console.log(this.router.url)
+    this.DevicesService.test().then(x => console.log(x));
   }
 
   add() {

@@ -24,9 +24,14 @@ export class DevicesService {
     }
     return null;
   }
+  
   addDevice(newDevice: Device){
     this.deviceList.push(newDevice)
     this.devicesSubject.next([...this.deviceList])
+  }
+  async test(){
+    const result = await fetch('http://localhost:5000/')
+    return await result.json()
   }
 }
 
@@ -45,4 +50,5 @@ export class VulnerabilitiesService{
   getAllVulns(): Vulnerability[]{
     return this.vulnList;
   }
+
 }
