@@ -16,19 +16,7 @@
     padding: 10px;
     justify-content: space-between;
     padding-right: 30px;
-}
-
-.leftbox {
-    display: flex;
-    width: 21vmin;
-    justify-content: space-between;
-}
-
-.rightbox {
-    display: flex;
-    justify-content: space-around;
-    align-items: baseline;
-    width: 80vmin;
+    height: 10vmin;
 }
 
 .sidebutton {
