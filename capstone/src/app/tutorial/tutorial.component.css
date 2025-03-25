@@ -6,23 +6,22 @@
     border: 1px solid #ddd;
     border-radius: 8px;
   }
-  
-  .toc ul {
-    list-style-type: none;
-    padding: 0;
+
+  .button {
+    transition-duration: 0.4s;
+    padding: 7px;
+    
+  }
+
+  .button:hover {
+    background-color: gainsboro;
+    color: black;
+    
   }
   
   .toc li {
     margin: 0.5rem 0;
-  }
-  
-  .toc a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  .toc a:hover {
-    text-decoration: underline;
+    list-style-type: none;
   }
   
   .content section {

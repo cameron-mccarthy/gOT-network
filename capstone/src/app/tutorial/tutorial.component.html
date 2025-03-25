@@ -1,30 +1,57 @@
 <div class="tutorial-page">
-    <!-- Table of Contents -->
-    <div class="toc">
-      <h2>Table of Contents</h2>
-      <ul>
-        <li><a [routerLink]="['/tutorial']" fragment="section1">Section 1: Introduction</a></li>
-        <li><a [routerLink]="['/tutorial']" fragment="section2">Section 2: Inventory</a></li>
-        <li><a [routerLink]="['/tutorial']" fragment="section3">Section 3: Vulnerabilties</a></li>
-      </ul>
-    </div>
-  
-    <!-- Sections -->
-    <div class="content">
-      <section id="section1">
-        <h3>Section 1: Introduction</h3>
-        <p>Product Overview</p>
-      </section>
-
-      <section id="section2">
-        <h3>Section 2: Inventory</h3>
-        <p>Inventory page tutorial</p>
-      </section>
-
-      <section id="section3">
-        <h3>Section 3: Vulnerabilties</h3>
-        <p>Vulnerabilities page tutorial</p>
-      </section>
-    </div>
+  <!-- Table of Contents -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <li><button class="button" (click)="scrollToSection('section1')">Overview</button></li>
+    <li><button class="button" (click)="scrollToSection('section2')">Inventory</button></li>
+    <li><button class="button" (click)="scrollToSection('section3')">Vulnerabilities</button></li>
   </div>
-  
+
+  <!-- Sections -->
+  <div class="content">
+    <section #sections id="section1">
+      <h3>Overview</h3>
+      <p>Product Overview</p>
+      bleh
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </section>
+
+    <section #sections id="section2">
+      <h3>Inventory</h3>
+      <p>Inventory page tutorial</p>
+      bleh
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </section>
+
+    <section #sections id="section3">
+      <h3>Vulnerabilties</h3>
+      <p>Vulnerabilities page tutorial</p>
+      bleh
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </section>
+  </div>
+</div>
