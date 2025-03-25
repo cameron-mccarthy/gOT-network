@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,12 @@ export class DevicesService {
 
   deviceList: Device[] = []
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  async getAllDevices(): Promise<any> {
+  getAllDevices(): Observable<Device[]> {
     const url = this.url + 'pntDevs'
-    let result = await fetch(url)
-    console.log(result)
+    let result = this.http.get<Device[]>(url)
     return result
   }
 
