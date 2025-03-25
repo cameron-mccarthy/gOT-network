@@ -42,7 +42,7 @@ def addDevice(mac, ip, product, vendor=None, type=None, status='Inactive', notes
                 Null,?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
-@app.route('/delDev', methods='POST')
+@app.route('/delDev', methods=['POST'])
 def delDevice(id):
     '''Delete a device from the database based on its id'''
     with sqlite3.connect('devices.db') as db:
@@ -59,7 +59,7 @@ def printDevices():
         data = cursor.fetchall()
         #print(data)
         text = jsonify(data)
-        return text
+        return data
     
 def printDBRowIDs():
     '''Print all the id numbers of device entries'''

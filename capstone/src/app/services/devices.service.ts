@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,11 @@ export class DevicesService {
   constructor() {
   }
 
-  getAllDevices() {
-    const url = this.url + ''
-    return null;
+  async getAllDevices(): Promise<any> {
+    const url = this.url + 'pntDevs'
+    let result = await fetch(url)
+    console.log(result)
+    return result
   }
 
   getDeviceByIP(ip: string): Device | null {
