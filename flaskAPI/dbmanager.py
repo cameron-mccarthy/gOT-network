@@ -19,7 +19,7 @@ def setupDevicesDB():
     '''Sets up the devices table in the database.'''
     # connect to/create the devices database
     try: 
-        db = sqlite3.connect('devices.db')
+        db = sqlite3.connect('devices.db', check_same_thread=False)
         db.execute('''CREATE TABLE devices( 
                             ID INTEGER PRIMARY KEY,
                             MAC TEXT, 
@@ -30,7 +30,7 @@ def setupDevicesDB():
                             STATUS TEXT,
                             NOTES TEXT);''')
     except:
-        db = sqlite3.connect('devices.db')
+        db = sqlite3.connect('devices.db', check_same_thread=False)
     cursor = db.cursor()
     return db, cursor
 
@@ -57,9 +57,15 @@ def printDevices():
     
         cursor = db.execute('''SELECT * FROM devices;''') 
         data = cursor.fetchall()
+        
+        devices = []
+        for i in range(len(data)):
+            item = extractDev(i+1)
+            devices.append(item)
+    
         #print(data)
-        text = jsonify(data)
-        return data
+        text = jsonify(devices)
+        return devices
     
 def printDBRowIDs():
     '''Print all the id numbers of device entries'''
@@ -95,8 +101,8 @@ def editDevice(id, mac=None, ip=None, vendor=None, product=None, type=None, stat
         db.commit()
 
 db, cursor = setupDevicesDB()
-addDevice('aa','168','yes')
-addDevice('bb','255','no')
+#addDevice('aa','168','yes')
+#addDevice('bb','255','no')
 #device = extractDev(1)
 #print(device)
 
