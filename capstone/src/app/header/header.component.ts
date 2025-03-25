@@ -26,7 +26,6 @@ export class HeaderComponent {
 
   scan() {
     console.log("scan");
-    this.DevicesService.test().then(x => console.log(x));
   }
 
   add() {

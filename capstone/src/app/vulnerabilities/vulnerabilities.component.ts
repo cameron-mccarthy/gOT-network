@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
 import { Vulnerability } from '../interfaces/vulnerability';
-import { VulnerabilitiesService } from '../services/devices.service';
+import { VulnerabilityService } from '../services/vulnerability.service';
 import { VulnerabilityCardComponent } from '../vulnerability-card/vulnerability-card.component';
 
 @Component({
@@ -14,8 +14,8 @@ import { VulnerabilityCardComponent } from '../vulnerability-card/vulnerability-
 
 export class VulnerabilitiesComponent {
   vulnList : Vulnerability[];
- constructor(public VulnService: VulnerabilitiesService){
-  this.vulnList = this.VulnService.getAllVulns();
+ constructor(public VulnerabilityService: VulnerabilityService){
+  this.vulnList = this.VulnerabilityService.getAllVulns();
   console.log(this.vulnList)
  }
 }
