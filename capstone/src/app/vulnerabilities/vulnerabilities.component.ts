@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
 import { Vulnerability } from '../interfaces/vulnerability';
-import { VulnerabilitiesService } from '../devices.service';
+import { VulnerabilitiesService } from '../services/devices.service';
 import { VulnerabilityCardComponent } from '../vulnerability-card/vulnerability-card.component';
 
 @Component({

@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule, Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DevicesService } from '../devices.service';
+import { DevicesService } from '../services/devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
 import { HeaderComponent } from "../header/header.component";

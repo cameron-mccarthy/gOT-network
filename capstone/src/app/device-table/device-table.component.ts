@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DevicesService } from '../devices.service';
+import { DevicesService } from '../services/devices.service';
 import { MatTableModule } from '@angular/material/table';
 import { Device } from '../interfaces/device';
 import { ActivatedRoute } from '@angular/router';

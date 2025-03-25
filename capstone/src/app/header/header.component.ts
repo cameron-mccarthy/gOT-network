@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
-import { DevicesService } from '../devices.service';
+import { DevicesService } from '../services/devices.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
