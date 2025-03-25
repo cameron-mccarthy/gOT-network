@@ -26,6 +26,7 @@ export class HeaderComponent {
 
   scan() {
     console.log("scan");
+    this.DevicesService.getAllDevices()
   }
 
   add() {

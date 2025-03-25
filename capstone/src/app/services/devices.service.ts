@@ -13,11 +13,11 @@ export class DevicesService {
   constructor() {
   }
 
-  getAllDevices(): Observable<Device[]> {
+  async getAllDevices(): Promise<any> {
     const url = this.url + 'pntDevs'
-    let result; 
-    fetch(url).then(x => result = x)
-    return result!.json()
+    let result = await fetch(url)
+    console.log(result)
+    return result
   }
 
   getDeviceByIP(ip: string): Device | null {

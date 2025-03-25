@@ -59,8 +59,8 @@ def printDevices():
         data = cursor.fetchall()
         #print(data)
         text = jsonify(data)
-        return text
-
+        return data
+    
 def printDBRowIDs():
     '''Print all the id numbers of device entries'''
     cursor = db.execute('''SELECT rowid FROM devices;''') 
