@@ -83,11 +83,11 @@ def extractDev(id):
     edit = {'ID': data[0]['ID'],
             'MAC': data[0]['MAC'],
             'IP': data[0]['IP'],
-            'VENDOR': data[0]['VENDOR'],
-            'PRODUCT': data[0]["PRODUCT"],
-            'TYPE': data[0]["TYPE"],
-            'STATUS': data[0]["STATUS"],
-            'NOTES': data[0]["NOTES"]}
+            'Vendor': data[0]['VENDOR'],
+            'Product': data[0]["PRODUCT"],
+            'Type': data[0]["TYPE"],
+            'Status': data[0]["STATUS"],
+            'Notes': data[0]["NOTES"]}
     return edit
 
 @app.route('/editDev', methods=['POST'])
