@@ -14,20 +14,31 @@ export class DevicesService {
   constructor(private http: HttpClient) {
   }
 
-  getAllDevices(): Observable<Device[]> {
-    const url = this.url + 'pntDevs'
-    let result = this.http.get<Device[]>(url)
+  getAllDevices(): Observable<Device[]> | null {
+    const url = this.url + 'pntDevs';
+    let result = this.http.get<Device[]>(url);
+    if (!result) console.log("error getting devices");
     return result
   }
 
-  getDeviceByIP(ip: string): Device | null {
+  // currently only does IP and MAC
+  getDeviceByMethod(method: string, target: string): Device | null {
+    if (method.toLowerCase() == "mac"){
       for (let device of this.deviceList!) {
-        if (device.IP === ip) return device;
+        if (device.MAC === target) return device;
       }
+    }
+    else if (method.toLowerCase() == "ip"){
+      for (let device of this.deviceList!) {
+        if (device.IP === target) return device;
+      }
+    }
     return null;
   }
 
   addDevice(newDevice: Device) {
-    this.deviceList.push(newDevice)
+    const url = this.url + 'addDev';
+    let result = this.http.post(url, newDevice);
+    if (!result) console.log("error adding device");
   }
 }
