@@ -11,9 +11,9 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
+#@app.route('/')
 def default():
-    return 'Default location'
+    return 'Successful Connection'
 
 def setupDevicesDB():
     '''Sets up the devices table in the database.'''
@@ -34,8 +34,8 @@ def setupDevicesDB():
     cursor = db.cursor()
     return db, cursor
 
-@app.route('/addDev', methods=['POST'])
-def addDevice(mac, ip, product, vendor=None, type=None, status='Inactive', notes=None):
+#@app.route('/addDev', methods=['POST'])
+def addDevice(mac, ip, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
         db.execute('''INSERT INTO devices (ID, MAC, IP, VENDOR, PRODUCT, TYPE, STATUS, NOTES) VALUES( 
@@ -49,7 +49,7 @@ def delDevice(id):
         db.execute('''delete from devices where id=?;''',(id,))
         db.commit()
 
-@app.route('/pntDevs', methods=['GET'])
+#@app.route('/pntDevs', methods=['GET'])
 def printDevices():
     '''Print all devices in database'''
     with sqlite3.connect('devices.db') as db:
@@ -64,7 +64,7 @@ def printDevices():
             devices.append(item)
     
         #print(data)
-        text = jsonify(devices)
+        #text = jsonify(devices)
         return devices
     
 def printDBRowIDs():
@@ -101,10 +101,10 @@ def editDevice(id, mac=None, ip=None, vendor=None, product=None, type=None, stat
         db.commit()
 
 db, cursor = setupDevicesDB()
-#addDevice('aa','168','yes')
+#addDevice('aa','168', 'product1', 'vendor1', 'type1', 'Active', "Have some notes!")
 #addDevice('bb','255','no')
 #device = extractDev(1)
 #print(device)
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+#    app.run()
