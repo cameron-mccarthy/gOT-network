@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class DeviceTableComponent {
   ngOnInit(){
-    this.DeviceService.getAllDevices()
+    this.DeviceService.getAllDevices().subscribe(data => this.data = data)
   }
   displayColumns: string[] = ["IP", "MAC", "Vendor", "Product", "Type", "Status"];
   data!: Device[];

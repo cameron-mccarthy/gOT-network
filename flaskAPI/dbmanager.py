@@ -34,7 +34,7 @@ def setupDevicesDB():
     cursor = db.cursor()
     return db, cursor
 
-#@app.route('/addDev', methods=['POST'])
+@app.route('/addDev', methods=['POST'])
 def addDevice(mac, ip, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
