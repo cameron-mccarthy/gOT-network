@@ -30,6 +30,16 @@ def editDev():
     #db.editDevice()
     return "Figure out post methods"
 
+@app.route('/delDev', methods=['GET', 'POST'])
+def delDev():
+    if request.method == 'GET':
+        return "This is a GET request!"
+    
+    if request.method == 'POST':
+        data = request.json
+        mac = data.get('MAC')
+        db.delDevice(mac)
+
 db.setupDevicesDB()
 if __name__ == '__main__':
     app.run()

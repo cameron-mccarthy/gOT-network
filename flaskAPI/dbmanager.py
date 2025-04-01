@@ -18,19 +18,19 @@ def default():
 def setupDevicesDB():
     '''Sets up the devices table in the database.'''
     # connect to/create the devices database
-    try: 
-        db = sqlite3.connect('devices.db', check_same_thread=False)
-        db.execute('''CREATE TABLE devices( 
-                            ID INTEGER PRIMARY KEY,
-                            MAC TEXT, 
-                            IP TEXT, 
-                            VENDOR TEXT, 
-                            PRODUCT TEXT,
-                            TYPE TEXT,
-                            STATUS TEXT,
-                            NOTES TEXT);''')
-    except:
-        db = sqlite3.connect('devices.db', check_same_thread=False)
+   # try: 
+    db = sqlite3.connect('devices.db', check_same_thread=False)
+    db.execute('''CREATE TABLE IF NOT EXISTS devices( 
+                        ID INTEGER PRIMARY KEY,
+                        MAC TEXT, 
+                        IP TEXT, 
+                        VENDOR TEXT, 
+                        PRODUCT TEXT,
+                        TYPE TEXT,
+                        STATUS TEXT,
+                        NOTES TEXT);''')
+    #except:
+    #    db = sqlite3.connect('devices.db', check_same_thread=False)
     cursor = db.cursor()
     return db, cursor
 
@@ -43,10 +43,10 @@ def addDevice(mac, ip, product=None, vendor=None, type=None, status='Inactive', 
         db.commit()
 
 @app.route('/delDev', methods=['POST'])
-def delDevice(id):
-    '''Delete a device from the database based on its id'''
+def delDevice(mac):
+    '''Delete a device from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from devices where id=?;''',(id,))
+        db.execute('''delete from devices where mac=?;''',(mac,))
         db.commit()
 
 #@app.route('/pntDevs', methods=['GET'])
