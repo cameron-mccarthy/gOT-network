@@ -14,7 +14,7 @@ export class DevicesService {
   constructor(private http: HttpClient) {
   }
 
-  getAllDevices(): Observable<Device[]> | null {
+  getAllDevices(): Observable<Device[]> {
     const url = this.url + 'pntDevs';
     let result = this.http.get<Device[]>(url);
     if (!result) console.log("error getting devices");
@@ -38,6 +38,7 @@ export class DevicesService {
 
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
+    console.log(newDevice)
     let result = this.http.post(url, newDevice);
     if (!result) console.log("error adding device");
   }
