@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
@@ -16,6 +16,12 @@ def printDevs():
 
 @app.route('/addDev', methods=['GET', 'POST'])
 def addDev():
+    if request.method == 'GET':
+        return "This is a GET request!"
+    
+    if request.method == 'POST':
+        data = request.form
+        print(data)
     #db.addDevice()
     return "Figure out post requests"
 
