@@ -17,7 +17,7 @@ def printDevs():
 @app.route('/addDev', methods=['GET', 'POST'])
 def addDev():
     if request.method == 'GET':
-        return "This is a GET request!"
+        return "This is the /addDev GET request!"
     
     if request.method == 'POST':
         data = request.json
@@ -27,13 +27,17 @@ def addDev():
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():
-    #db.editDevice()
-    return "Figure out post methods"
+    if request.method == 'GET':
+        return "This is the /editDev GET request!"
+    
+    if request.method == 'POST':
+        data = request.json
+        db.editDevice(data.get('MAC'), data.get('IP'), data.get('Vendor'), data.get('Product'), data.get('Type'), data.get('Status'), data.get('Notes'))
 
 @app.route('/delDev', methods=['GET', 'POST'])
 def delDev():
     if request.method == 'GET':
-        return "This is a GET request!"
+        return "This is the /delDev GET request!"
     
     if request.method == 'POST':
         data = request.json

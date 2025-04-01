@@ -90,14 +90,14 @@ def extractDev(id):
             'Notes': data[0]["NOTES"]}
     return edit
 
-@app.route('/editDev', methods=['POST'])
-def editDevice(id, mac=None, ip=None, vendor=None, product=None, type=None, status=None, notes=None):
+#@app.route('/editDev', methods=['POST'])
+def editDevice(mac, ip=None, vendor=None, product=None, type=None, status=None, notes=None):
     '''Edit one or more values of a device, even its MAC address'''
     
     with sqlite3.connect('devices.db') as db:
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
-        db.execute('''UPDATE devices SET mac = COALESCE(?, mac), ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE id = ?''', (mac, ip, vendor, product, type, status, notes, id))
+        db.execute('''UPDATE devices SET ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, vendor, product, type, status, notes, mac))
         db.commit()
 
 db, cursor = setupDevicesDB()
