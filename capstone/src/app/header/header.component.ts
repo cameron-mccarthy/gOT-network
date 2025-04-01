@@ -33,7 +33,7 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(AddDeviceDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.DevicesService.addDevice(result).subscribe(x => console.log(x))
+        this.DevicesService.addDevice(result)
       }
     })
   }
