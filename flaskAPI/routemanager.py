@@ -12,9 +12,6 @@ def default():
 
 @app.route('/pntDevs', methods=['GET'])
 def printDevs():
-<<<<<<< Updated upstream
-    return jsonify(db.printDevices())
-=======
     if request.method == 'GET':
         return jsonify(db.printDevices())
     
@@ -23,7 +20,6 @@ def printDevs():
         # the value to sort by, whatever that is
         param = data.get('sortby')
         return jsonify(db.printOrderedDevices(param))
->>>>>>> Stashed changes
 
 @app.route('/addDev', methods=['GET', 'POST'])
 def addDev():
@@ -34,11 +30,7 @@ def addDev():
         data = request.json
         params = [data.get('MAC'), data.get('IP'), data.get('Product')]
         db.addDevice(params[0],params[1],params[2])
-<<<<<<< Updated upstream
-    #return "Figure out post requests"
-=======
         return jsonify(sucess=True)
->>>>>>> Stashed changes
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():
