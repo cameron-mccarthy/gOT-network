@@ -10,20 +10,29 @@ def setupDevicesDB():
     db = sqlite3.connect('devices.db') #, check_same_thread=False)
     db.execute('''CREATE TABLE IF NOT EXISTS devices( 
                         ID INTEGER PRIMARY KEY,
-                        MAC TEXT, 
+                        MAC TEXT UNIQUE, 
                         IP TEXT, 
                         VENDOR TEXT, 
                         PRODUCT TEXT,
                         TYPE TEXT,
                         STATUS TEXT,
                         NOTES TEXT);''')
+    
+    db.execute('''CREATE TABLE IF NOT EXISTS vulns(
+                ID INTEGER PRIMARY KEY,
+                MAC TEXT,
+                SEVERITY INT
+                DESC TEXT,
+                URL TEXT,
+                NOTES TEXT,
+                FOREIGN KEY (MAC) REFERENCES devices(MAC));''')
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
 def addDevice(mac, ip, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (ID, MAC, IP, VENDOR, PRODUCT, TYPE, STATUS, NOTES) VALUES( 
+        db.execute('''INSERT INTO devices (ID, MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
                 Null,?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
@@ -40,13 +49,24 @@ def printDevices():
     
         cursor = db.execute('''SELECT * FROM devices;''') 
         
-        devices = []
-        for entry in cursor:
-            device = {'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'VENDOR': entry[3], 'PRODUCT': entry[4], 'TYPE': entry[5], 'STATUS': entry[6], 'NOTES': entry[7]}
-            devices.append(device)
-            
+        devices = jsonDevice(cursor)
         return devices
-    
+
+def jsonDevice(cursor):
+    devices = []
+    for entry in cursor:
+        device = {'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'Vendor': entry[3], 'Product': entry[4], 'Type': entry[5], 'Status': entry[6], 'Notes': entry[7]}
+        devices.append(device)
+    return devices
+
+def printOrderedDevices(sortorder):
+    '''Order the devices by some parameter'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} NULLS LAST")
+        devices = jsonDevice(cursor)
+        return devices
+
 def printDBRowIDs():
     '''Print all the id numbers of device entries'''
     with sqlite3.connect('devices.db') as db:
