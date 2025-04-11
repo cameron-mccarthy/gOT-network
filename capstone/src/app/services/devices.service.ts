@@ -36,11 +36,10 @@ export class DevicesService {
     return null;
   }
 
-  addDevice(newDevice: Device) {
+  addDevice(newDevice: Device): Observable<object> {
     console.log("adding device")
     const url = this.url + 'addDev';
-    let result = this.http.post(url, newDevice);
-    if (!result) console.log("error adding device");
+    return this.http.post(url, newDevice);
   }
 
   deleteDevice(deleteDev: Device) {
