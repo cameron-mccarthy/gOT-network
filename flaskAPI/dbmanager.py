@@ -1,6 +1,7 @@
 import sqlite3
 
 #TODO
+<<<<<<< Updated upstream
 # fetch data
 # select by type (sorted)
 # setup flask routes
@@ -8,6 +9,9 @@ import sqlite3
 #@app.route('/')
 def default():
     return 'Successful Connection'
+=======
+#   setup vuln crud ops
+>>>>>>> Stashed changes
 
 def setupDevicesDB():
     '''Sets up the devices table in the database.'''
