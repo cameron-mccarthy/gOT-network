@@ -28,9 +28,15 @@ def addDev():
     
     if request.method == 'POST':
         data = request.json
-        #params = [data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes')]
-        db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-        return jsonify(sucess=True)
+        
+        # try to look up the device
+        try:
+            db.extractDev(data.get('MAC'))
+        except:
+            db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+            return jsonify(sucess=True)
+        
+        return "ERROR: Duplicate MAC.\nDevice could not be created."
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():

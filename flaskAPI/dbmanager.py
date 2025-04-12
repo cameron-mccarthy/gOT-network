@@ -75,11 +75,11 @@ def printDBRowIDs():
         data = cursor.fetchall()
         print(data)
 
-def extractDev(id):
-    '''Extract row information of a device based on its id.  Returns as a dictionary'''
+def extractDev(mac):
+    '''Extract row information of a device based on its mac.  Returns as a dictionary'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-        cursor = db.execute('''select * from devices where ID = ?;''', (id,))
+        cursor = db.execute('''select * from devices where mac = ?;''', (mac,))
         data = cursor.fetchall()
         data = [{'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'VENDOR': entry[3], 'PRODUCT': entry[4], 'TYPE': entry[5], 'STATUS': entry[6], 'NOTES': entry[7]} for entry in data]
         
