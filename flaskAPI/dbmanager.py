@@ -118,13 +118,22 @@ def delVuln(id):
         db.execute('''delete from vulns where id=?;''',(str(id)))
         db.commit()
 
-def printVulns():
+def delVulns(mac):
+    '''Delete a vuln from the database based on its mac'''
+    with sqlite3.connect('devices.db') as db:
+        db.execute('''delete from vulns where mac=?;''',(mac))
+        db.commit()
+
+def printVulns(mac=None):
     '''Print all vulns in database'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
     
-        cursor = db.execute('''SELECT * FROM vulns;''') 
-        
+        if not mac:
+            cursor = db.execute('''SELECT * FROM vulns;''') 
+        else:
+            cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac))
+
         devices = jsonVuln(cursor)
         return devices
 
@@ -144,3 +153,4 @@ def editVuln(id, notes=None):
         # tldr, this updates only the values that have specifically been changed.
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
+

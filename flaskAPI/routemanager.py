@@ -58,7 +58,48 @@ def delDev():
         data = request.json
         mac = data.get('MAC')
         db.delDevice(mac)
+        db.delVulns(mac)
         return jsonify(success=True)
+
+@app.route('/pntVulns', methods=['GET', 'POST'])
+def printVulns():
+    if request.method == 'GET':
+        return jsonify(db.printVulns())
+    
+    if request.method == 'POST':
+        data = request.json
+        # find only vulnerabilities on a specific device
+        return jsonify(db.printVulns(data.get('MAC')))
+
+@app.route('/addVuln', methods=['GET','POST'])
+def addVuln():
+    if request.method == 'GET':
+        return "This is /addVuln GET request"
+    if request.method == 'POST':
+        data = request.json
+        db.addVuln(data.get('MAC'), data.get('Severity'), data.get('Desc'), data.get('URL'))
+        return jsonify(success=True)
+
+@app.route('/editVuln', methods=['GET', 'POST'])
+def editVuln():
+    if request.method == 'GET':
+        return "This is the /editVuln GET request!"
+    
+    if request.method == 'POST':
+        data = request.json
+        db.editVuln(data.get('ID'), data.get('Notes'))
+        return jsonify(success=True)
+
+@app.route('/delVuln', methods=['GET', 'POST'])
+def delVuln():
+    if request.method == 'GET':
+        return "This is the /delVuln GET request!"
+    
+    if request.method == 'POST':
+        data = request.json
+        db.delVuln(data.get('ID'))
+        return jsonify(success=True)
+
 
 db.setupDevicesDB()
 if __name__ == '__main__':
