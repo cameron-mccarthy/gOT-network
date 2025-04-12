@@ -8,7 +8,7 @@ CORS(app)
 
 @app.route('/')
 def default():
-    return "Sucessful Connection"
+    return "Successful Connection"
 
 @app.route('/pntDevs', methods=['GET'])
 def printDevs():
@@ -28,8 +28,8 @@ def addDev():
     
     if request.method == 'POST':
         data = request.json
-        params = [data.get('MAC'), data.get('IP'), data.get('Product')]
-        db.addDevice(params[0],params[1],params[2])
+        #params = [data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes')]
+        db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
         return jsonify(sucess=True)
 
 @app.route('/editDev', methods=['GET', 'POST'])
@@ -39,7 +39,8 @@ def editDev():
     
     if request.method == 'POST':
         data = request.json
-        db.editDevice(data.get('MAC'), data.get('IP'), data.get('Vendor'), data.get('Product'), data.get('Type'), data.get('Status'), data.get('Notes'))
+        db.editDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+        return jsonify(success=True)
 
 @app.route('/delDev', methods=['GET', 'POST'])
 def delDev():
@@ -50,6 +51,7 @@ def delDev():
         data = request.json
         mac = data.get('MAC')
         db.delDevice(mac)
+        return jsonify(success=True)
 
 db.setupDevicesDB()
 if __name__ == '__main__':

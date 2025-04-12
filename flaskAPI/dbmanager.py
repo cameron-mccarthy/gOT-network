@@ -94,7 +94,7 @@ def extractDev(id):
                 'Notes': data[0]["NOTES"]}
         return edit
 
-def editDevice(mac, ip=None, vendor=None, product=None, type=None, status=None, notes=None):
+def editDevice(mac, ip=None, product=None, vendor=None, type=None, status=None, notes=None):
     '''Edit one or more values of a device, even its MAC address'''
     
     with sqlite3.connect('devices.db') as db:
