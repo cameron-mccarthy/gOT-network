@@ -141,7 +141,7 @@ def jsonVuln(cursor):
     '''Create a list of vulnerability dicitonaries.  Takes in a sql select (cursor) as input'''
     vulns = []
     for entry in cursor:
-        vuln = {'ID': entry[0], 'MAC': entry[1], 'Severity': entry[2], 'Description': entry[3], 'URL': entry[4], 'Notes': entry[5]}
+        vuln = {'ID': entry[0], 'MAC': entry[1], 'Severity': entry[2], 'Desc': entry[3], 'URL': entry[4], 'Notes': entry[5]}
         vulns.append(vuln)
     return vulns
 
