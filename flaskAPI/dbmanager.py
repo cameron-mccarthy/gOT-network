@@ -21,7 +21,7 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS vulns(
                 ID INTEGER PRIMARY KEY,
                 MAC TEXT,
-                SEVERITY INT
+                SEVERITY INT,
                 DESC TEXT,
                 URL TEXT,
                 NOTES TEXT,
@@ -101,4 +101,46 @@ def editDevice(mac, ip=None, product=None, vendor=None, type=None, status=None, 
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
         db.execute('''UPDATE devices SET ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, vendor, product, type, status, notes, mac))
+        db.commit()
+
+# vuln ops
+
+def addVuln(mac, sev, desc, url):
+    '''Add a vulnerability to a device'''
+    with sqlite3.connect('devices.db') as db:
+        db.execute('''INSERT INTO vulns (ID, MAC, severity, desc, url, Notes) VALUES( 
+                Null,?,?,?,?,Null)''',(mac, sev, desc, url))
+        db.commit()
+
+def delVuln(id):
+    '''Delete a vuln from the database based on its id'''
+    with sqlite3.connect('devices.db') as db:
+        db.execute('''delete from vulns where id=?;''',(str(id)))
+        db.commit()
+
+def printVulns():
+    '''Print all vulns in database'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+    
+        cursor = db.execute('''SELECT * FROM vulns;''') 
+        
+        devices = jsonVuln(cursor)
+        return devices
+
+def jsonVuln(cursor):
+    '''Create a list of vulnerability dicitonaries.  Takes in a sql select (cursor) as input'''
+    vulns = []
+    for entry in cursor:
+        vuln = {'ID': entry[0], 'MAC': entry[1], 'Severity': entry[2], 'Description': entry[3], 'URL': entry[4], 'Notes': entry[5]}
+        vulns.append(vuln)
+    return vulns
+
+def editVuln(id, notes=None):
+    '''Edit the note attribute of a vulnerability.  Must call by vuln id.'''
+    
+    with sqlite3.connect('devices.db') as db:
+        # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
+        # tldr, this updates only the values that have specifically been changed.
+        db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()

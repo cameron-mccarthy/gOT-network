@@ -30,6 +30,7 @@ def addDev():
         data = request.json
         
         # try to look up the device
+        # if the lookup fails (device doesn't exist), then add the device
         try:
             db.extractDev(data.get('MAC'))
         except:
