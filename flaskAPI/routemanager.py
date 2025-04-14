@@ -35,7 +35,7 @@ def addDev():
             db.extractDev(data.get('MAC'))
         except:
             db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-            return jsonify(sucess=True)
+            return jsonify(success=True)
         
         return "ERROR: Duplicate MAC.\nDevice could not be created."
 
