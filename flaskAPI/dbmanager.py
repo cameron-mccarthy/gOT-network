@@ -9,8 +9,7 @@ def setupDevicesDB():
     # try:
     db = sqlite3.connect('devices.db') #, check_same_thread=False)
     db.execute('''CREATE TABLE IF NOT EXISTS devices( 
-                        ID INTEGER PRIMARY KEY,
-                        MAC TEXT UNIQUE, 
+                        MAC TEXT PRIMARY KEY, 
                         IP TEXT, 
                         VENDOR TEXT, 
                         PRODUCT TEXT,
@@ -29,11 +28,11 @@ def setupDevicesDB():
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
-def addDevice(mac, ip, product=None, vendor=None, type=None, status='Inactive', notes=None):
+def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (ID, MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
-                Null,?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
+        db.execute('''INSERT INTO devices (MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
+                ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
 def delDevice(mac):
@@ -55,7 +54,7 @@ def printDevices():
 def jsonDevice(cursor):
     devices = []
     for entry in cursor:
-        device = {'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'Vendor': entry[3], 'Product': entry[4], 'Type': entry[5], 'Status': entry[6], 'Notes': entry[7]}
+        device = {'MAC': entry[0], 'IP': entry[1], 'Vendor': entry[2], 'Product': entry[3], 'Type': entry[4], 'Status': entry[5], 'Notes': entry[6]}
         devices.append(device)
     return devices
 
@@ -81,7 +80,7 @@ def extractDev(mac):
         cursor = db.cursor()
         cursor = db.execute('''select * from devices where mac = ?;''', (mac,))
         data = cursor.fetchall()
-        data = [{'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'VENDOR': entry[3], 'PRODUCT': entry[4], 'TYPE': entry[5], 'STATUS': entry[6], 'NOTES': entry[7]} for entry in data]
+        data = [{'MAC': entry[0], 'IP': entry[1], 'VENDOR': entry[2], 'PRODUCT': entry[3], 'TYPE': entry[4], 'STATUS': entry[5], 'NOTES': entry[6]} for entry in data]
         
         # rewrite as a dictionary
         edit = {'ID': data[0]['ID'],
