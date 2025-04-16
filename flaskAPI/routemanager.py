@@ -18,8 +18,9 @@ def printDevs():
     if request.method == 'POST':
         data = request.json
         # the value to sort by, whatever that is
-        param = data.get('sortby')
-        return jsonify(db.printOrderedDevices(param))
+        sort = data.get('sortby')
+        direction = data.get('direction')
+        return jsonify(db.printOrderedDevices(sort, direction))
 
 @app.route('/addDev', methods=['GET', 'POST'])
 def addDev():

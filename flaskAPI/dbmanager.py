@@ -68,11 +68,14 @@ def jsonDevice(cursor):
         devices.append(device)
     return devices
 
-def printOrderedDevices(sortorder):
+def printOrderedDevices(sortorder, direction=None):
     '''Order the devices by some parameter'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-        cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} NULLS LAST")
+        if (direction.upper() == "DESC"):
+            cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} DESC NULLS LAST")
+        else:
+            cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} NULLS LAST")
         devices = jsonDevice(cursor)
         return devices
 
@@ -177,3 +180,4 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
+print(printOrderedDevices("ip", "desc"))
