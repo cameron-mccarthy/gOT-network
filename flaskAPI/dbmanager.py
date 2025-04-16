@@ -177,4 +177,3 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
-print(importDevice("11-22-11-11-11-11", "1.2.3.4"))
