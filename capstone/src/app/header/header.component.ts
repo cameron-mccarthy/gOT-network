@@ -30,7 +30,14 @@ export class HeaderComponent {
   }
 
   add() {
-    const dialogRef = this.dialog.open(AddDeviceDialogComponent);
+    const dialogRef = this.dialog.open(AddDeviceDialogComponent,{data: {edit: false, device: {
+            IP: "",
+            MAC: "",
+            Product: "",
+            Type: "",
+            Status: "Inactive",
+            Vendor: "",
+            }}});
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.DevicesService.addDevice(result).subscribe(result => console.log(result))

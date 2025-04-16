@@ -2,22 +2,46 @@ import { Component } from '@angular/core';
 import { DevicesService } from '../services/devices.service';
 import { MatTableModule } from '@angular/material/table';
 import { Device } from '../interfaces/device';
-import { ActivatedRoute } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
+import { inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-device-table',
-  imports: [MatTableModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule],
   templateUrl: './device-table.component.html',
   styleUrl: './device-table.component.css'
 })
 
 
 export class DeviceTableComponent {
+  readonly dialog = inject(MatDialog);
   ngOnInit(){
     this.DeviceService.getAllDevices().subscribe(data => this.data = data)
   }
   displayColumns: string[] = ["IP", "MAC", "Vendor", "Product", "Type", "Status"];
   data!: Device[];
   constructor(public DeviceService: DevicesService){
+  }
+  edit(device:Device){
+    const dialogRef = this.dialog.open(AddDeviceDialogComponent, {data: {edit: true, device: device}});
+        dialogRef.afterClosed().subscribe(result => {
+          if (result){
+            this.DeviceService.addDevice(result).subscribe(result => console.log(result))
+          }
+        })
+  }
+
+  delete(MAC:string){
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {data: {MAC:MAC}});
+        dialogRef.afterClosed().subscribe(result => {
+          if (result){
+            console.log("Deleted")
+          }
+        })
   }
 }
