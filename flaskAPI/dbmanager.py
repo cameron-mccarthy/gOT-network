@@ -41,6 +41,16 @@ def delDevice(mac):
         db.execute('''delete from devices where mac=?;''',(mac,))
         db.commit()
 
+# function that adds device if it doesn't exist, edits device if it does
+def importDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
+    '''Imports a device from the backend program.  If the device exists already, it is updated with new info.  Otherwise it is added.'''
+    if (devExists(mac)):
+        editDevice(mac, ip, product, vendor, type, status, notes)
+        return f"Device '{mac}' updated."
+    else:
+        addDevice(mac, ip, product, vendor, type, status, notes)
+        return f"Device '{mac}' added."
+
 def printDevices():
     '''Print all devices in database'''
     with sqlite3.connect('devices.db') as db:
@@ -73,6 +83,20 @@ def printDBRowIDs():
         cursor = db.execute('''SELECT rowid FROM devices;''') 
         data = cursor.fetchall()
         print(data)
+
+# check if device exists
+def devExists(mac):
+    '''Uses mac address to determine if a device exists.  Returns as a boolean.'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute('''SELECT rowid FROM devices WHERE mac=?;''',(mac,))
+        data = cursor.fetchall()
+
+        # if device doesn't exist
+        if not data:
+            return False
+        else:
+            return True
 
 def extractDev(mac):
     '''Extract row information of a device based on its mac.  Returns as a dictionary'''
@@ -120,7 +144,7 @@ def delVuln(id):
 def delVulns(mac):
     '''Delete a vuln from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from vulns where mac=?;''',(mac))
+        db.execute('''delete from vulns where mac=?;''',(mac,))
         db.commit()
 
 def printVulns(mac=None):
@@ -131,7 +155,7 @@ def printVulns(mac=None):
         if not mac:
             cursor = db.execute('''SELECT * FROM vulns;''') 
         else:
-            cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac))
+            cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac,))
 
         devices = jsonVuln(cursor)
         return devices
@@ -153,3 +177,4 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
+print(importDevice("11-22-11-11-11-11", "1.2.3.4"))

@@ -29,15 +29,21 @@ def addDev():
     if request.method == 'POST':
         data = request.json
         
-        # try to look up the device
-        # if the lookup fails (device doesn't exist), then add the device
-        try:
-            db.extractDev(data.get('MAC'))
-        except:
+        if (db.devExists(data.get('MAC'))):
+            return "ERROR: Duplicate MAC.\nDevice could not be created."
+        else:
             db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return jsonify(success=True)
+
+        # try to look up the device
+        # if the lookup fails (device doesn't exist), then add the device
+        #try:
+        #    db.extractDev(data.get('MAC'))
+        #except:
+        #    db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+        #    return jsonify(success=True)
         
-        return "ERROR: Duplicate MAC.\nDevice could not be created."
+        #return "ERROR: Duplicate MAC.\nDevice could not be created."
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():
