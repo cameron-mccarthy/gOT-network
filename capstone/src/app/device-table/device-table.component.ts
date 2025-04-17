@@ -9,6 +9,7 @@ import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog
 import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { NotesDialogComponent } from '../notes-dialog/notes-dialog.component';
 
 @Component({
   selector: 'app-device-table',
@@ -42,6 +43,12 @@ export class DeviceTableComponent {
           if (result){
             console.log("Deleted")
           }
+        })
+  }
+
+  notes(device: Device){
+    const dialogRef = this.dialog.open(NotesDialogComponent, {data: {device: device}});
+        dialogRef.afterClosed().subscribe(result => {
         })
   }
 }

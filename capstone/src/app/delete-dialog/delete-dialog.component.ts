@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -14,7 +13,7 @@ import { Device } from '../interfaces/device';
 
 @Component({
   selector: 'app-delete-dialog',
-  imports: [MatDialogTitle, MatDialogActions, MatDialogContent],
+  imports: [MatDialogTitle, MatDialogActions, MatDialogContent, MatButtonModule],
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.css'
 })
@@ -26,7 +25,7 @@ export class DeleteDialogComponent {
     this.MAC = this.data.MAC
   }
 
-  close() {
-    this.dialogRef.close(true);
+  close(del: boolean) {
+    this.dialogRef.close(del);
   }
 }
