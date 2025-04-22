@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DevicesService } from '../services/devices.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Device } from '../interfaces/device';
@@ -30,7 +30,6 @@ export class DeviceTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   displayColumns: string[] = ["IP", "MAC", "Vendor", "Product", "Type", "Status"];
-  data!: Device[];
   constructor(public DeviceService: DevicesService){
   }
   dataSource = new MatTableDataSource<Device>();
