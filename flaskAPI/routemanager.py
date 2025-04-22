@@ -18,8 +18,9 @@ def printDevs():
     if request.method == 'POST':
         data = request.json
         # the value to sort by, whatever that is
-        param = data.get('sortby')
-        return jsonify(db.printOrderedDevices(param))
+        sort = data.get('sortby')
+        direction = data.get('direction')
+        return jsonify(db.printOrderedDevices(sort, direction))
 
 @app.route('/addDev', methods=['GET', 'POST'])
 def addDev():
@@ -29,15 +30,21 @@ def addDev():
     if request.method == 'POST':
         data = request.json
         
-        # try to look up the device
-        # if the lookup fails (device doesn't exist), then add the device
-        try:
-            db.extractDev(data.get('MAC'))
-        except:
+        if (db.devExists(data.get('MAC'))):
+            return "ERROR: Duplicate MAC.\nDevice could not be created."
+        else:
             db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return jsonify(success=True)
+
+        # try to look up the device
+        # if the lookup fails (device doesn't exist), then add the device
+        #try:
+        #    db.extractDev(data.get('MAC'))
+        #except:
+        #    db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+        #    return jsonify(success=True)
         
-        return "ERROR: Duplicate MAC.\nDevice could not be created."
+        #return "ERROR: Duplicate MAC.\nDevice could not be created."
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():
