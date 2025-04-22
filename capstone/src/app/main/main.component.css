@@ -24,3 +24,19 @@
     font-size: 2vmin;
     color: #252525 !important;
 }
+
+
+.deviceBox {
+    display: flex;
+    justify-content: space-between;
+    width: 55vmin;
+    padding: 10px;
+}
+
+.vulnBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 50vmin;
+    padding: 10px;
+}

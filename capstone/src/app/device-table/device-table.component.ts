@@ -32,7 +32,8 @@ export class DeviceTableComponent {
     const dialogRef = this.dialog.open(AddDeviceDialogComponent, {data: {edit: true, device: device}});
         dialogRef.afterClosed().subscribe(result => {
           if (result){
-            this.DeviceService.addDevice(result).subscribe(result => console.log(result))
+            this.DeviceService.addDevice(result)
+            //add error message
           }
         })
   }
