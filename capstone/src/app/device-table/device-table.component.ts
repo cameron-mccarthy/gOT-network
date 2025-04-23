@@ -12,10 +12,11 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { NotesDialogComponent } from '../notes-dialog/notes-dialog.component';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import  { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 
 @Component({
   selector: 'app-device-table',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule, MatPaginatorModule],
   templateUrl: './device-table.component.html',
   styleUrl: './device-table.component.css'
 })
@@ -28,6 +29,7 @@ export class DeviceTableComponent {
   }
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator! : MatPaginator;
 
   displayColumns: string[] = ["IP", "MAC", "Vendor", "Product", "Type", "Status"];
   data!: Device[];
@@ -37,7 +39,10 @@ export class DeviceTableComponent {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
+
+  
 
   edit(device:Device){
     const dialogRef = this.dialog.open(AddDeviceDialogComponent, {data: {edit: true, device: device}});
