@@ -213,7 +213,3 @@ def updateVendor():
         for entry in data:
             entry["macPrefix"] = entry["macPrefix"].replace(":", "-")
             db.execute('''REPLACE INTO vendors (macPrefix, vendorName) VALUES (?, ?)''', (entry["macPrefix"], entry["vendorName"]))
-
-=======
-print(printOrderedDevices("ip", "desc"))
-
