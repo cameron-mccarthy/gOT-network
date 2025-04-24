@@ -36,7 +36,7 @@ def setupDevicesDB():
 def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (MAC, IP, Vendohttps://github.com/cameron-mccarthy/CapstoneFrontend/pull/1/conflict?name=flaskAPI%252Fdbmanager.py&ancestor_oid=8cec30a5ef33ad7159b346fedd30c9e9fea3e840&base_oid=a17d4598392938f6295eff83fd3963b1c84593e4&head_oid=044c492194600e0e52da239eb39b9e5460bf1803r, Product, Type, Status, Notes) VALUES( 
+        db.execute('''INSERT INTO devices (MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
                 ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
