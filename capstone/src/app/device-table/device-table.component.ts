@@ -25,7 +25,7 @@ import  { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 export class DeviceTableComponent {
   readonly dialog = inject(MatDialog);
   ngOnInit(){
-    this.DeviceService.getAllDevices().subscribe(data => this.dataSource.data = data)
+    this.DeviceService.deviceList.subscribe(data => this.dataSource.data = data)
   }
 
   @ViewChild(MatSort) sort!: MatSort;
