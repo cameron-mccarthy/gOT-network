@@ -1,4 +1,5 @@
 import sqlite3
+import requests
 
 #TODO
 #   setup vuln crud ops
@@ -9,7 +10,7 @@ def setupDevicesDB():
     # try:
     db = sqlite3.connect('devices.db') #, check_same_thread=False)
     db.execute('''CREATE TABLE IF NOT EXISTS devices( 
-                        MAC TEXT PRIMARY KEY, 
+                        MAC TEXT, 
                         IP TEXT, 
                         VENDOR TEXT, 
                         PRODUCT TEXT,
@@ -25,13 +26,17 @@ def setupDevicesDB():
                 URL TEXT,
                 NOTES TEXT,
                 FOREIGN KEY (MAC) REFERENCES devices(MAC));''')
+    db.execute('''CREATE TABLE IF NOT EXISTS vendors (
+                macPrefix TEXT PRIMARY KEY NOT NULL,
+                vendorName TEXT NOT NULL)''')
+    updateVendor()
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
 def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
+        db.execute('''INSERT INTO devices (MAC, IP, Vendohttps://github.com/cameron-mccarthy/CapstoneFrontend/pull/1/conflict?name=flaskAPI%252Fdbmanager.py&ancestor_oid=8cec30a5ef33ad7159b346fedd30c9e9fea3e840&base_oid=a17d4598392938f6295eff83fd3963b1c84593e4&head_oid=044c492194600e0e52da239eb39b9e5460bf1803r, Product, Type, Status, Notes) VALUES( 
                 ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
@@ -180,4 +185,35 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
+
+def dbSearch(outputVar='MAC', filterVar='MAC', table='devices', value=''):
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT {outputVar} FROM {table} WHERE {filterVar} == ? ;", (value,))
+        return cursor.fetchall()
+
+def isNull(outputVar='MAC', filterVar='MAC', table='devices'):
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT {outputVar} FROM {table} WHERE {filterVar} IS NULL;")
+        return cursor.fetchall()
+
+def vendorLookup(macPrefix):
+        device_vendor = dbSearch(outputVar="vendorName", filterVar="macPrefix", table="vendors", value=macPrefix)
+        if not device_vendor:
+            return 'Unknown'
+        return device_vendor[0][0]
+
+def updateVendor():
+    
+    URL = "https://maclookup.app/downloads/json-database/get-db"
+    response = requests.get(url = URL)
+    data = response.json()
+    with sqlite3.connect('devices.db') as db:
+        for entry in data:
+            entry["macPrefix"] = entry["macPrefix"].replace(":", "-")
+            db.execute('''REPLACE INTO vendors (macPrefix, vendorName) VALUES (?, ?)''', (entry["macPrefix"], entry["vendorName"]))
+
+=======
 print(printOrderedDevices("ip", "desc"))
+
