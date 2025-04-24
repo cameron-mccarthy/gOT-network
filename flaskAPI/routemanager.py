@@ -31,7 +31,7 @@ def addDev():
         data = request.json
         
         if (db.devExists(data.get('MAC'))):
-            return "ERROR: Duplicate MAC.\nDevice could not be created."
+            return "ERROR: Duplicate MAC.\nDevice could not be created.", 409
         else:
             db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return jsonify(success=True)

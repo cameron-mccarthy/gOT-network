@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,14 @@ export class DevicesService {
   public deviceList: Observable<Device[]> = this.devicesSubject.asObservable();
 
   constructor(private http: HttpClient) {
+    this.loadDevices();
   }
 
-  getAllDevices(): Observable<Device[]> {
-    this.loadDevices()
-    return this.deviceList
-  }
+  
+  refresh() {
+    this.loadDevices();
+  } 
+    
 
   private loadDevices() {
     const url = this.url + 'pntDevs';
@@ -46,13 +48,19 @@ export class DevicesService {
   addDevice(newDevice: Device) {
     console.log("adding device")
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices(); console.log("refreshed")})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
   deleteDevice(deleteDev: Device) {
     console.log("deleting device")
     const url = this.url + 'delDev';
-    let result = this.http.post(url, deleteDev.MAC);
+    this.http.post(url, deleteDev).subscribe(() => {this.loadDevices()}, error => {alert(error.error)} )
+  }
+
+  editDevice(newDevice: Device) {
+    console.log("adding device")
+    const url = this.url + 'editDev';
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
 }

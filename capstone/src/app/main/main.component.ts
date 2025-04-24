@@ -25,7 +25,6 @@ export class MainComponent {
   
   scan() {
     console.log("scan");
-    this.DevicesService.getAllDevices().subscribe(x => console.log(x[0]))
   }
 
   add() {
@@ -45,7 +44,7 @@ export class MainComponent {
   }
 
   refresh() {
-    console.log("refresh")
+    this.DevicesService.refresh()
   }
 
   searchDevices() {
