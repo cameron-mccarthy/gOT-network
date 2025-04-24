@@ -36,7 +36,7 @@ def setupDevicesDB():
 def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
+        db.execute('''INSERT INTO devices (MAC, IP, Vendohttps://github.com/cameron-mccarthy/CapstoneFrontend/pull/1/conflict?name=flaskAPI%252Fdbmanager.py&ancestor_oid=8cec30a5ef33ad7159b346fedd30c9e9fea3e840&base_oid=a17d4598392938f6295eff83fd3963b1c84593e4&head_oid=044c492194600e0e52da239eb39b9e5460bf1803r, Product, Type, Status, Notes) VALUES( 
                 ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
@@ -45,6 +45,16 @@ def delDevice(mac):
     with sqlite3.connect('devices.db') as db:
         db.execute('''delete from devices where mac=?;''',(mac,))
         db.commit()
+
+# function that adds device if it doesn't exist, edits device if it does
+def importDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
+    '''Imports a device from the backend program.  If the device exists already, it is updated with new info.  Otherwise it is added.'''
+    if (devExists(mac)):
+        editDevice(mac, ip, product, vendor, type, status, notes)
+        return f"Device '{mac}' updated."
+    else:
+        addDevice(mac, ip, product, vendor, type, status, notes)
+        return f"Device '{mac}' added."
 
 def printDevices():
     '''Print all devices in database'''
@@ -63,11 +73,14 @@ def jsonDevice(cursor):
         devices.append(device)
     return devices
 
-def printOrderedDevices(sortorder):
+def printOrderedDevices(sortorder, direction=None):
     '''Order the devices by some parameter'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-        cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} NULLS LAST")
+        if (direction.upper() == "DESC"):
+            cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} DESC NULLS LAST")
+        else:
+            cursor = db.execute(f"SELECT * from devices ORDER BY {sortorder} NULLS LAST")
         devices = jsonDevice(cursor)
         return devices
 
@@ -78,6 +91,20 @@ def printDBRowIDs():
         cursor = db.execute('''SELECT rowid FROM devices;''') 
         data = cursor.fetchall()
         print(data)
+
+# check if device exists
+def devExists(mac):
+    '''Uses mac address to determine if a device exists.  Returns as a boolean.'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute('''SELECT rowid FROM devices WHERE mac=?;''',(mac,))
+        data = cursor.fetchall()
+
+        # if device doesn't exist
+        if not data:
+            return False
+        else:
+            return True
 
 def extractDev(mac):
     '''Extract row information of a device based on its mac.  Returns as a dictionary'''
@@ -125,7 +152,7 @@ def delVuln(id):
 def delVulns(mac):
     '''Delete a vuln from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from vulns where mac=?;''',(mac))
+        db.execute('''delete from vulns where mac=?;''',(mac,))
         db.commit()
 
 def printVulns(mac=None):
@@ -136,7 +163,7 @@ def printVulns(mac=None):
         if not mac:
             cursor = db.execute('''SELECT * FROM vulns;''') 
         else:
-            cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac))
+            cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac,))
 
         devices = jsonVuln(cursor)
         return devices
@@ -157,6 +184,7 @@ def editVuln(id, notes=None):
         # tldr, this updates only the values that have specifically been changed.
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
+
 
 def dbSearch(outputVar='MAC', filterVar='MAC', table='devices', value=''):
     with sqlite3.connect('devices.db') as db:
@@ -185,4 +213,7 @@ def updateVendor():
         for entry in data:
             entry["macPrefix"] = entry["macPrefix"].replace(":", "-")
             db.execute('''REPLACE INTO vendors (macPrefix, vendorName) VALUES (?, ?)''', (entry["macPrefix"], entry["vendorName"]))
+
+=======
+print(printOrderedDevices("ip", "desc"))
 

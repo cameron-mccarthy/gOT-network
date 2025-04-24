@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +9,26 @@ import { HttpClient } from '@angular/common/http';
 export class DevicesService {
   url: string = 'http://localhost:5000/'
 
-  deviceList: Device[] = []
+  private devicesSubject = new BehaviorSubject<Device[]>([]);
+  public deviceList: Observable<Device[]> = this.devicesSubject.asObservable();
 
   constructor(private http: HttpClient) {
+    this.loadDevices();
   }
 
-  getAllDevices(): Observable<Device[]> {
+  
+  refresh() {
+    this.loadDevices();
+  } 
+    
+
+  private loadDevices() {
     const url = this.url + 'pntDevs';
-    let result = this.http.get<Device[]>(url);
-    if (!result) console.log("error getting devices");
-    return result
+    this.http.get<Device[]>(url)
+      .subscribe(devices => this.devicesSubject.next(devices));
   }
 
+  /*
   // currently only does IP and MAC
   getDeviceByMethod(method: string, target: string): Device | null {
     if (method.toLowerCase() == "mac"){
@@ -35,18 +43,24 @@ export class DevicesService {
     }
     return null;
   }
+    */
 
-  addDevice(newDevice: Device): Observable<object> {
+  addDevice(newDevice: Device) {
     console.log("adding device")
     const url = this.url + 'addDev';
-    return this.http.post(url, newDevice);
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
   deleteDevice(deleteDev: Device) {
     console.log("deleting device")
     const url = this.url + 'delDev';
-    let result = this.http.post(url, deleteDev.MAC);
-    if (!result) console.log("error deleting device");
+    this.http.post(url, deleteDev).subscribe(() => {this.loadDevices()}, error => {alert(error.error)} )
+  }
+
+  editDevice(newDevice: Device) {
+    console.log("adding device")
+    const url = this.url + 'editDev';
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
 }

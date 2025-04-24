@@ -9,19 +9,50 @@ import { FormsModule } from '@angular/forms';
 import { DevicesService } from '../services/devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
-import { HeaderComponent } from "../header/header.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterModule, MatButtonModule, MatSidenavModule, MatIconModule, MatInputModule, MatFormFieldModule, FormsModule, HeaderComponent],
+  imports: [RouterModule, MatButtonModule, MatSidenavModule, MatIconModule, MatInputModule, MatFormFieldModule, CommonModule, FormsModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
 export class MainComponent {
   readonly dialog = inject(MatDialog);
   searchText!: string;
-  constructor(public DevicesService: DevicesService, private router: Router) {
+  constructor(public DevicesService: DevicesService, public router: Router) {
   }
   
+  scan() {
+    console.log("scan");
+  }
+
+  add() {
+    const dialogRef = this.dialog.open(AddDeviceDialogComponent,{data: {edit: false, device: {
+            IP: "",
+            MAC: "",
+            Product: "",
+            Type: "",
+            Status: "Inactive",
+            Vendor: "",
+            }}});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.DevicesService.addDevice(result)
+      }
+    })
+  }
+
+  refresh() {
+    this.DevicesService.refresh()
+  }
+
+  searchDevices() {
+    console.log(this.searchText)
+  }
+
+  searchVuln() {
+    console.log(this.searchText)
+  }
 
 }

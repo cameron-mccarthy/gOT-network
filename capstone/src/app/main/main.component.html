@@ -1,13 +1,33 @@
 <header class="header">
     <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
-    <app-header></app-header>
+    <header>
+        <section>
+            <div class="deviceBox" *ngIf="this.router.url === '/'">
+                <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
+                <button mat-fab (click)="refresh()"><mat-icon fontIcon="refresh"></mat-icon></button>
+                <mat-form-field>
+                    <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+                    <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
+                        placeholder="search for devices...">
+                </mat-form-field>
+            </div>
+            <div class="vulnBox" *ngIf="this.router.url == '/vulnerabilities'">
+                <button mat-raised-button (click)="scan()">Scan Devices</button>
+                <mat-form-field>
+                    <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+                    <input matInput [(ngModel)]="searchText" (keydown.enter)="searchVuln()"
+                        placeholder="search for vulnerabilities...">
+                </mat-form-field>
+            </div>
+        </section>
+    </header>
 </header>
 <main>
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
-                <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
-                <button class="sidebutton" mat-button [routerLink]="['vulnerabilities']">Vulnerabilities</button>
-                <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
+            <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
+            <button class="sidebutton" mat-button [routerLink]="['vulnerabilities']">Vulnerabilities</button>
+            <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
     </mat-drawer-container>
