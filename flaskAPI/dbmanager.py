@@ -1,4 +1,5 @@
 import sqlite3
+import requests
 
 #TODO
 #   setup vuln crud ops
@@ -9,7 +10,7 @@ def setupDevicesDB():
     # try:
     db = sqlite3.connect('devices.db') #, check_same_thread=False)
     db.execute('''CREATE TABLE IF NOT EXISTS devices( 
-                        MAC TEXT PRIMARY KEY, 
+                        MAC TEXT, 
                         IP TEXT, 
                         VENDOR TEXT, 
                         PRODUCT TEXT,
@@ -25,6 +26,10 @@ def setupDevicesDB():
                 URL TEXT,
                 NOTES TEXT,
                 FOREIGN KEY (MAC) REFERENCES devices(MAC));''')
+    db.execute('''CREATE TABLE IF NOT EXISTS vendors (
+                macPrefix TEXT PRIMARY KEY NOT NULL,
+                vendorName TEXT NOT NULL)''')
+    updateVendor()
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
@@ -180,4 +185,31 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
-print(printOrderedDevices("ip", "desc"))
+
+def dbSearch(outputVar='MAC', filterVar='MAC', table='devices', value=''):
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT {outputVar} FROM {table} WHERE {filterVar} == ? ;", (value,))
+        return cursor.fetchall()
+
+def isNull(outputVar='MAC', filterVar='MAC', table='devices'):
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT {outputVar} FROM {table} WHERE {filterVar} IS NULL;")
+        return cursor.fetchall()
+
+def vendorLookup(macPrefix):
+        device_vendor = dbSearch(outputVar="vendorName", filterVar="macPrefix", table="vendors", value=macPrefix)
+        if not device_vendor:
+            return 'Unknown'
+        return device_vendor[0][0]
+
+def updateVendor():
+    
+    URL = "https://maclookup.app/downloads/json-database/get-db"
+    response = requests.get(url = URL)
+    data = response.json()
+    with sqlite3.connect('devices.db') as db:
+        for entry in data:
+            entry["macPrefix"] = entry["macPrefix"].replace(":", "-")
+            db.execute('''REPLACE INTO vendors (macPrefix, vendorName) VALUES (?, ?)''', (entry["macPrefix"], entry["vendorName"]))
