@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
-import scan as scanner
+#import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -114,7 +114,7 @@ def addVuln():
         return "This is /addVuln GET request"
     if request.method == 'POST':
         data = request.json
-        db.addVuln(data.get('MAC'), data.get('Severity'), data.get('Desc'), data.get('URL'))
+        db.addVuln(data.get('MAC'), data.get('IP'), data.get('Severity'), data.get('Desc'), data.get('URL'))
         return jsonify(success=True)
 
 @app.route('/editVuln', methods=['GET', 'POST'])
@@ -142,9 +142,9 @@ def scanDevs():
     if request.method == 'GET':
         ip = "10.10.10.254"
         community_string = "Password3"
-        scanner.getSNMPMAC(ip, community_string)
-        scanner.getSNMPARP(ip, community_string)
-        scanner.getVendor(ip, community_string)
+        #scanner.getSNMPMAC(ip, community_string)
+        #scanner.getSNMPARP(ip, community_string)
+        #scanner.getVendor(ip, community_string)
         return jsonify(success=True)
 
 
