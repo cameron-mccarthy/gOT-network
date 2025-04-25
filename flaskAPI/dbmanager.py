@@ -2,7 +2,9 @@ import sqlite3
 import requests
 
 #TODO
-#   setup vuln crud ops
+#   Functionality to status column (active/inactive)
+#   Button on frontend to call script                   ==COMPLETE==
+#   Alerts page with duplicate MAC alert, IP alert      ==COMPLETE==
 
 def setupDevicesDB():
     '''Sets up the devices table in the database.'''
@@ -16,7 +18,8 @@ def setupDevicesDB():
                         PRODUCT TEXT,
                         TYPE TEXT,
                         STATUS TEXT,
-                        NOTES TEXT);''')
+                        NOTES TEXT,
+                        UNIQUE(MAC, IP));''')
     
     db.execute('''CREATE TABLE IF NOT EXISTS vulns(
                 ID INTEGER PRIMARY KEY,
