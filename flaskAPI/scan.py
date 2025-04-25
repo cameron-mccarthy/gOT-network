@@ -46,8 +46,6 @@ def getSNMPMAC(snmp_target, version=2, community_string="public"):
 def getSNMPARP(snmp_target, version=2, community_string="public"):
     data = snmpScan(snmp_target,"1.3.6.1.2.1.4.22.1.2", version, community_string)
     
-    # set all devices to inactive, then manually update the devices that are found
-    db.setAllDev("status", "Inactive")
     if data == None:
         return
     for entry in data:
@@ -58,9 +56,9 @@ def getSNMPARP(snmp_target, version=2, community_string="public"):
         dev = db.dbSearch(value=mac)
 
         if not dev:
-            db.addDevice(mac, ip=ip, status="Active")
+            db.addDevice(mac, ip=ip)
         else:
-            db.editDevice(mac, ip=ip, status="Active")
+            db.editDevice(mac, ip=ip)
 
         print(f"IP: {ip}, MAC: {mac}")
         
