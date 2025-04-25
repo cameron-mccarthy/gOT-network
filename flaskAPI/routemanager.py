@@ -94,8 +94,9 @@ def delDev():
     if request.method == 'POST':
         data = request.json
         mac = data.get('MAC')
-        db.delDevice(mac)
-        db.delVulns(mac)
+        ip = data.get('IP')
+        db.delDevice(mac,ip)
+        db.delVulns(mac,ip)
         return jsonify(success=True)
 
 @app.route('/pntVulns', methods=['GET', 'POST'])

@@ -44,10 +44,10 @@ def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inacti
                 ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
-def delDevice(mac):
+def delDevice(mac,ip):
     '''Delete a device from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from devices where mac=?;''',(mac,))
+        db.execute('''delete from devices where (mac=? and ip=?);''',(mac,ip))
         db.commit()
 
 # function that adds device if it doesn't exist, edits device if it does
@@ -166,7 +166,7 @@ def delVuln(id):
 def delVulns(mac,ip):
     '''Delete a vuln from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from vulns where (mac=? AND ip=?;''',(mac,ip,))
+        db.execute('''delete from vulns where (mac=? AND ip=?);''',(mac,ip,))
         db.commit()
 
 def printVulns(mac=None):
@@ -186,7 +186,7 @@ def jsonVuln(cursor):
     '''Create a list of vulnerability dicitonaries.  Takes in a sql select (cursor) as input'''
     vulns = []
     for entry in cursor:
-        vuln = {'ID': entry[0], 'MAC': entry[1], 'Severity': entry[2], 'Desc': entry[3], 'URL': entry[4], 'Notes': entry[5]}
+        vuln = {'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'Severity': entry[3], 'Desc': entry[4], 'URL': entry[5], 'Notes': entry[6]}
         vulns.append(vuln)
     return vulns
 
