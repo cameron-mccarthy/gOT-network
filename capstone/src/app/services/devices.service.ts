@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Vulnerability } from '../interfaces/vulnerability';
+import { VulnerabilityService } from './vulnerability.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class DevicesService {
   private devicesSubject = new BehaviorSubject<Device[]>([]);
   public deviceList: Observable<Device[]> = this.devicesSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private AlertService: VulnerabilityService) {
     this.loadDevices();
   }
   
@@ -45,7 +47,7 @@ export class DevicesService {
 
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {if (error.Status < 500)this.addAlert(newDevice, error.error)})
   }
 
   deleteDevice(deleteDev: Device) {
@@ -63,4 +65,13 @@ export class DevicesService {
     this.http.get(url).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
+  addAlert(device: Device, error: string){
+    this.AlertService.addAlert({ID: 0,
+      MAC: device.MAC,
+      IP: device.IP,
+      Severity: 5,
+      Desc: error,
+      URL: null,
+      Notes: error})
+  }
 }
