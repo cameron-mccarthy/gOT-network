@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
+# import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -29,11 +30,40 @@ def addDev():
     
     if request.method == 'POST':
         data = request.json
+        ip = data.get('IP')
+        mac = data.get('MAC').upper()
+        print(mac)
+
+        # if the mac entry already exists
+        if (db.devExists(mac)):
+
+            # if they have the same ip address, don't create the device at all
+            devIP = db.dbSearch('IP', 'MAC', 'devices', mac)
+            if (ip == devIP[0][0]):
+                return "ALERT: Duplicate shared MAC and IP address.\nDevice entry was not created.", 409
+            else:
+                # add proper alerts.
+                db.addVuln(mac, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
+                
+                # check if any device has that ip address
+                if (db.dbSearch('MAC', 'IP', 'devices', ip)):
+                    db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+                    db.addVuln(mac, 3, "Duplicate IP address.", None)
+                    return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
+                
+                else:
+                    db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+                    return "ALERT: Duplicate MAC.\nConflicting device created.", 409
         
-        if (db.devExists(data.get('MAC'))):
-            return "ERROR: Duplicate MAC.\nDevice could not be created.", 409
+        # that ip address is already used
+        elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
+            db.addVuln(mac, 3, "Duplicate IP address.", None)
+            db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+            return "ALERT: Duplicate IP.\nConflicting device created", 409
+        
+        # No duplicate mac or ip addresses
         else:
-            db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+            db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return jsonify(success=True)
 
         # try to look up the device
@@ -105,6 +135,16 @@ def delVuln():
     if request.method == 'POST':
         data = request.json
         db.delVuln(data.get('ID'))
+        return jsonify(success=True)
+
+@app.route('/scanDevs', methods=['GET'])
+def scanDevs():
+    if request.method == 'GET':
+        ip = "10.10.10.254"
+        community_string = "Password3"
+    #    scanner.getSNMPMAC(ip, community_string)
+    #    scanner.getSNMPARP(ip, community_string)
+    #    scanner.getVendor(ip, community_string)
         return jsonify(success=True)
 
 
