@@ -24,6 +24,7 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS vulns(
                 ID INTEGER PRIMARY KEY,
                 MAC TEXT,
+                IP TEXT,
                 SEVERITY INT,
                 DESC TEXT,
                 URL TEXT,
@@ -32,7 +33,7 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS vendors (
                 macPrefix TEXT PRIMARY KEY NOT NULL,
                 vendorName TEXT NOT NULL)''')
-    updateVendor()
+    # updateVendor()
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
@@ -43,10 +44,10 @@ def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inacti
                 ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
         db.commit()
 
-def delDevice(mac):
+def delDevice(mac,ip):
     '''Delete a device from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from devices where mac=?;''',(mac,))
+        db.execute('''delete from devices where (mac=? and ip=?);''',(mac,ip))
         db.commit()
 
 # function that adds device if it doesn't exist, edits device if it does
@@ -149,11 +150,11 @@ def updateStatus(mac, status):
 
 # vuln ops
 
-def addVuln(mac, sev, desc, url):
+def addVuln(mac, ip, sev, desc, url):
     '''Add a vulnerability to a device'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO vulns (ID, MAC, severity, desc, url, Notes) VALUES( 
-                Null,?,?,?,?,Null)''',(mac, sev, desc, url))
+        db.execute('''INSERT INTO vulns (ID, MAC, IP, severity, desc, url, Notes) VALUES( 
+                Null,?,?,?,?,?,Null)''',(mac, ip, sev, desc, url))
         db.commit()
 
 def delVuln(id):
@@ -162,10 +163,10 @@ def delVuln(id):
         db.execute('''delete from vulns where id=?;''',(str(id)))
         db.commit()
 
-def delVulns(mac):
+def delVulns(mac,ip):
     '''Delete a vuln from the database based on its mac'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''delete from vulns where mac=?;''',(mac,))
+        db.execute('''delete from vulns where (mac=? AND ip=?);''',(mac,ip,))
         db.commit()
 
 def printVulns(mac=None):
@@ -185,7 +186,7 @@ def jsonVuln(cursor):
     '''Create a list of vulnerability dicitonaries.  Takes in a sql select (cursor) as input'''
     vulns = []
     for entry in cursor:
-        vuln = {'ID': entry[0], 'MAC': entry[1], 'Severity': entry[2], 'Desc': entry[3], 'URL': entry[4], 'Notes': entry[5]}
+        vuln = {'ID': entry[0], 'MAC': entry[1], 'IP': entry[2], 'Severity': entry[3], 'Desc': entry[4], 'URL': entry[5], 'Notes': entry[6]}
         vulns.append(vuln)
     return vulns
 
@@ -198,6 +199,13 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
+def countEntries(table):
+    '''Count number of entries in a table.  Takes table name.  Returns an int.'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT COUNT(*) FROM {table}")
+        num = cursor.fetchone()
+        return num[0]
 
 def dbSearch(outputVar='MAC', filterVar='MAC', table='devices', value=''):
     with sqlite3.connect('devices.db') as db:

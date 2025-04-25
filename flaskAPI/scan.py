@@ -78,12 +78,12 @@ def getVendor():
         db.editDevice(entry[0], vendor=device_vendor)
 
 if __name__ == '__main__':
-    test_vendor_lookup = 1
+    test_vendor_lookup = 0
     test_mac_scan = 0
     print_devices = 0
     print_vendors = 0
     test_arp_scan = 0
-    remake_db = 0
+    remake_db = 1
     if remake_db:
         db.setupDevicesDB()
     if print_vendors:

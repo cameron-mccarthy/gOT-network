@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
-import scan as scanner
+#import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -43,12 +43,12 @@ def addDev():
                 return "ALERT: Duplicate shared MAC and IP address.\nDevice entry was not created.", 409
             else:
                 # add proper alerts.
-                db.addVuln(mac, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
+                db.addVuln(mac, ip, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
                 
                 # check if any device has that ip address
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
                     db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-                    db.addVuln(mac, 3, "Duplicate IP address.", None)
+                    db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
                     return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
                 
                 else:
@@ -57,7 +57,7 @@ def addDev():
         
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
-            db.addVuln(mac, 3, "Duplicate IP address.", None)
+            db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
             db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return "ALERT: Duplicate IP.\nConflicting device created", 409
         
@@ -94,8 +94,9 @@ def delDev():
     if request.method == 'POST':
         data = request.json
         mac = data.get('MAC')
-        db.delDevice(mac)
-        db.delVulns(mac)
+        ip = data.get('IP')
+        db.delDevice(mac,ip)
+        db.delVulns(mac,ip)
         return jsonify(success=True)
 
 @app.route('/pntVulns', methods=['GET', 'POST'])
@@ -114,7 +115,7 @@ def addVuln():
         return "This is /addVuln GET request"
     if request.method == 'POST':
         data = request.json
-        db.addVuln(data.get('MAC'), data.get('Severity'), data.get('Desc'), data.get('URL'))
+        db.addVuln(data.get('MAC'), data.get('IP'), data.get('Severity'), data.get('Desc'), data.get('URL'))
         return jsonify(success=True)
 
 @app.route('/editVuln', methods=['GET', 'POST'])
@@ -141,12 +142,11 @@ def delVuln():
 def scanDevs():
     if request.method == 'GET':
         ip = "10.10.10.254"
-        community_string = "Password3"
-        scanner.getSNMPMAC(ip, community_string)
-        scanner.getSNMPARP(ip, community_string)
-        scanner.getVendor(ip, community_string)
+        snmp_string = "Password3"
+        #scanner.getSNMPMAC(ip, community_string=snmp_string)
+        #scanner.getSNMPARP(ip, community_string=snmp_string)
+        #scanner.getVendor()
         return jsonify(success=True)
-
 
 db.setupDevicesDB()
 if __name__ == '__main__':

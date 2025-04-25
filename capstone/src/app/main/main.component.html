@@ -1,32 +1,32 @@
 <header class="header">
-    <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
-    <header>
-        <section>
-            <div class="deviceBox" *ngIf="this.router.url === '/'">
-                <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
-                <button mat-fab (click)="refresh()"><mat-icon fontIcon="refresh"></mat-icon></button>
-                <mat-form-field>
-                    <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
-                    <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
-                        placeholder="search for devices...">
-                </mat-form-field>
-            </div>
-            <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
-                <button mat-raised-button (click)="scan()">Scan Devices</button>
-                <mat-form-field>
-                    <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
-                    <input matInput [(ngModel)]="searchText" (keydown.enter)="searchVuln()"
-                        placeholder="search for vulnerabilities...">
-                </mat-form-field>
-            </div>
-        </section>
-    </header>
+    <div class="left">
+        <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
+        <button class = "scan" mat-fab (click)="scan()">Scan</button>
+    </div>
+    <section>
+        <div class="deviceBox" *ngIf="this.router.url === '/'">
+            <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-fab (click)="refresh()"><mat-icon fontIcon="refresh"></mat-icon></button>
+            <mat-form-field>
+                <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+                <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
+                    placeholder="search for devices...">
+            </mat-form-field>
+        </div>
+        <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
+            <mat-form-field>
+                <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+                <input matInput [(ngModel)]="searchText" (keydown.enter)="searchVuln()"
+                    placeholder="search for vulnerabilities...">
+            </mat-form-field>
+        </div>
+    </section>
 </header>
 <main>
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
             <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
-            <button class="sidebutton" mat-button [routerLink]="['alerts']">Alerts</button>
+            <button class="sidebutton" mat-button [routerLink]="['alerts']"><p [matBadge]="notifications" matBadgeOverlap="false">Alerts</p></button>
             <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>

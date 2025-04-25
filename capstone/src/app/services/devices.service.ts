@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Vulnerability } from '../interfaces/vulnerability';
+import { VulnerabilityService } from './vulnerability.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class DevicesService {
   private devicesSubject = new BehaviorSubject<Device[]>([]);
   public deviceList: Observable<Device[]> = this.devicesSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private AlertService: VulnerabilityService) {
     this.loadDevices();
   }
   
@@ -44,21 +46,33 @@ export class DevicesService {
     */
 
   addDevice(newDevice: Device) {
-    console.log("adding device")
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error.error)}})
   }
 
   deleteDevice(deleteDev: Device) {
-    console.log("deleting device")
     const url = this.url + 'delDev';
     this.http.post(url, deleteDev).subscribe(() => {this.loadDevices()}, error => {alert(error.error)} )
   }
 
   editDevice(newDevice: Device) {
-    console.log("adding device")
     const url = this.url + 'editDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error.error)})
   }
 
+  scan(){
+    const url = this.url + 'scanDevs';
+    this.http.get(url).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+  }
+
+  addAlert(device: Device, error: string){
+    alert(error)
+    this.AlertService.addAlert({ID: 0,
+      MAC: device.MAC,
+      IP: device.IP,
+      Severity: 5,
+      Desc: error,
+      URL: null,
+      Notes: error})
+  }
 }
