@@ -43,12 +43,12 @@ def addDev():
                 return "ALERT: Duplicate shared MAC and IP address.\nDevice entry was not created.", 409
             else:
                 # add proper alerts.
-                db.addVuln(mac, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
+                db.addVuln(mac, ip, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
                 
                 # check if any device has that ip address
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
                     db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-                    db.addVuln(mac, 3, "Duplicate IP address.", None)
+                    db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
                     return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
                 
                 else:
@@ -57,7 +57,7 @@ def addDev():
         
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
-            db.addVuln(mac, 3, "Duplicate IP address.", None)
+            db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
             db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return "ALERT: Duplicate IP.\nConflicting device created", 409
         
