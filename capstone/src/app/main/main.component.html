@@ -26,7 +26,7 @@
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
             <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
-            <button class="sidebutton" mat-button [routerLink]="['alerts']">Alerts</button>
+            <button class="sidebutton" mat-button [routerLink]="['alerts']"><p [matBadge]="alertAmount()" matBadgeOverlap="false">Alerts</p></button>
             <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>

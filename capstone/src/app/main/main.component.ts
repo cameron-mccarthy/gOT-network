@@ -10,17 +10,24 @@ import { DevicesService } from '../services/devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
 import { CommonModule } from '@angular/common';
+import { VulnerabilityService } from '../services/vulnerability.service';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterModule, MatButtonModule, MatSidenavModule, MatIconModule, MatInputModule, MatFormFieldModule, CommonModule, FormsModule],
+  imports: [RouterModule, MatButtonModule, MatSidenavModule, MatIconModule, MatInputModule, MatFormFieldModule, CommonModule, FormsModule, MatBadgeModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
 export class MainComponent {
   readonly dialog = inject(MatDialog);
   searchText!: string;
-  constructor(public DevicesService: DevicesService, public router: Router) {
+  notifications: number = 0;
+  constructor(public DevicesService: DevicesService, public router: Router, public AlertService: VulnerabilityService) {
+  }
+
+  ngOnInit() {
+    //this.AlertService.notifications.subscribe(data => this.notifications = data)
   }
   
   scan() {
@@ -55,4 +62,7 @@ export class MainComponent {
     console.log(this.searchText)
   }
 
+  alertAmount(){
+    return 7;
+  }
 }
