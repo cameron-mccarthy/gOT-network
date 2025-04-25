@@ -32,7 +32,7 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS vendors (
                 macPrefix TEXT PRIMARY KEY NOT NULL,
                 vendorName TEXT NOT NULL)''')
-    updateVendor()
+    # updateVendor()
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
