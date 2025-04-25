@@ -27,7 +27,7 @@ export class MainComponent {
   }
 
   ngOnInit() {
-    //this.AlertService.notifications.subscribe(data => this.notifications = data)
+    this.AlertService.vulnList.subscribe(data => this.notifications = data.length)
   }
   
   scan() {
@@ -62,7 +62,4 @@ export class MainComponent {
     console.log(this.searchText)
   }
 
-  alertAmount(){
-    return 7;
-  }
 }
