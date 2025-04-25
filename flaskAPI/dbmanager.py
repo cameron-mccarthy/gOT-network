@@ -199,6 +199,13 @@ def editVuln(id, notes=None):
         db.execute('''UPDATE vulns SET notes = COALESCE(?, notes) WHERE id = ?''', (notes, id))
         db.commit()
 
+def countEntries(table):
+    '''Count number of entries in a table.  Takes table name.  Returns an int.'''
+    with sqlite3.connect('devices.db') as db:
+        cursor = db.cursor()
+        cursor = db.execute(f"SELECT COUNT(*) FROM {table}")
+        num = cursor.fetchone()
+        return num[0]
 
 def dbSearch(outputVar='MAC', filterVar='MAC', table='devices', value=''):
     with sqlite3.connect('devices.db') as db:
@@ -227,3 +234,7 @@ def updateVendor():
         for entry in data:
             entry["macPrefix"] = entry["macPrefix"].replace(":", "-")
             db.execute('''REPLACE INTO vendors (macPrefix, vendorName) VALUES (?, ?)''', (entry["macPrefix"], entry["vendorName"]))
+
+
+print(printDevices())
+print(countEntries("devices"))

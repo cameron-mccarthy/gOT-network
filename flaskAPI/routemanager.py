@@ -147,6 +147,10 @@ def scanDevs():
         #scanner.getVendor(ip, community_string)
         return jsonify(success=True)
 
+@app.route('/countAlerts', methods=['GET'])
+def countAlerts():
+    table = 'vulns'
+    return str(db.countEntries(table)), 200
 
 db.setupDevicesDB()
 if __name__ == '__main__':
