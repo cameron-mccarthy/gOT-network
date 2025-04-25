@@ -142,9 +142,9 @@ def scanDevs():
     if request.method == 'GET':
         ip = "10.10.10.254"
         community_string = "Password3"
-        #scanner.getSNMPMAC(ip, community_string)
-        #scanner.getSNMPARP(ip, community_string)
-        #scanner.getVendor(ip, community_string)
+       # scanner.getSNMPMAC(ip, community_string)
+       # scanner.getSNMPARP(ip, community_string)
+       # scanner.getVendor(ip, community_string)
         return jsonify(success=True)
 
 @app.route('/countAlerts', methods=['GET'])
