@@ -47,7 +47,7 @@ export class DevicesService {
 
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {if (error.Status < 500)this.addAlert(newDevice, error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {if (error.Status < 500){this.addAlert(newDevice, error.error)}})
   }
 
   deleteDevice(deleteDev: Device) {
@@ -57,7 +57,7 @@ export class DevicesService {
 
   editDevice(newDevice: Device) {
     const url = this.url + 'editDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {if (error.Status < 500){this.addAlert(newDevice, error.error)}})
   }
 
   scan(){
