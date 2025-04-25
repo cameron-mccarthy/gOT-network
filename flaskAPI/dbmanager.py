@@ -2,7 +2,9 @@ import sqlite3
 import requests
 
 #TODO
-#   setup vuln crud ops
+#   Functionality to status column (active/inactive)
+#   Button on frontend to call script                   ==COMPLETE==
+#   Alerts page with duplicate MAC alert, IP alert      ==COMPLETE==
 
 def setupDevicesDB():
     '''Sets up the devices table in the database.'''
@@ -16,7 +18,8 @@ def setupDevicesDB():
                         PRODUCT TEXT,
                         TYPE TEXT,
                         STATUS TEXT,
-                        NOTES TEXT);''')
+                        NOTES TEXT,
+                        UNIQUE(MAC, IP));''')
     
     db.execute('''CREATE TABLE IF NOT EXISTS vulns(
                 ID INTEGER PRIMARY KEY,
@@ -132,6 +135,16 @@ def editDevice(mac, ip=None, product=None, vendor=None, type=None, status=None, 
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
         db.execute('''UPDATE devices SET ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, vendor, product, type, status, notes, mac))
+        db.commit()
+
+def setAllDev(column, value):
+    with sqlite3.connect('devices.db') as db:
+        db.execute(f"UPDATE devices set {column} = ?", (value,))
+        db.commit()
+
+def updateStatus(mac, status):
+    with sqlite3.connect('devices.db') as db:
+        editDevice(mac, status=status)
         db.commit()
 
 # vuln ops
