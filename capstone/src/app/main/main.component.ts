@@ -24,7 +24,7 @@ export class MainComponent {
   }
   
   scan() {
-    console.log("scan");
+    this.DevicesService.scan()
   }
 
   add() {

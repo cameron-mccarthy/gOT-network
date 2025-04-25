@@ -44,21 +44,23 @@ export class DevicesService {
     */
 
   addDevice(newDevice: Device) {
-    console.log("adding device")
     const url = this.url + 'addDev';
     this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
   deleteDevice(deleteDev: Device) {
-    console.log("deleting device")
     const url = this.url + 'delDev';
     this.http.post(url, deleteDev).subscribe(() => {this.loadDevices()}, error => {alert(error.error)} )
   }
 
   editDevice(newDevice: Device) {
-    console.log("adding device")
     const url = this.url + 'editDev';
     this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+  }
+
+  scan(){
+    const url = this.url + 'scanDevs';
+    this.http.get(url).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
 }
