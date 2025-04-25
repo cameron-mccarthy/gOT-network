@@ -153,7 +153,7 @@ def updateStatus(mac, status):
 def addVuln(mac, ip, sev, desc, url):
     '''Add a vulnerability to a device'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO vulns (ID, MAC, severity, desc, url, Notes) VALUES( 
+        db.execute('''INSERT INTO vulns (ID, MAC, IP, severity, desc, url, Notes) VALUES( 
                 Null,?,?,?,?,?,Null)''',(mac, ip, sev, desc, url))
         db.commit()
 
