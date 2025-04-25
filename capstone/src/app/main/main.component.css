@@ -15,7 +15,6 @@
     display: flex;
     padding: 10px;
     justify-content: space-between;
-    align-items: baseline;
     padding-right: 30px;
     height: 10vmin;
 }
@@ -40,14 +39,4 @@
     align-items: baseline;
     width: 50vmin;
     padding: 10px;
-}
-
-.left {
-    display: flex;
-    justify-content: space-between;
-    width: 20vmin;
-}
-
-.scan {
-    font-size: 14pt;
 }

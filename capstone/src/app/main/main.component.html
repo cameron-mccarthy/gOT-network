@@ -11,7 +11,7 @@
                         placeholder="search for devices...">
                 </mat-form-field>
             </div>
-            <div class="vulnBox" *ngIf="this.router.url == '/vulnerabilities'">
+            <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
                 <button mat-raised-button (click)="scan()">Scan Devices</button>
                 <mat-form-field>
                     <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
