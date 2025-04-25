@@ -10,9 +10,9 @@ export const routes: Routes = [
         title: "Home Page"
     },
     {
-        path: "vulnerabilities",
+        path: "alerts",
         component: VulnerabilitiesComponent,
-        title: "Vulnerabilities"
+        title: "Alerts"
     },
     {
         path: "tutorial",

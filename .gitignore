@@ -42,4 +42,4 @@ testem.log
 .DS_Store
 Thumbs.db
 devices.db
-/flaskAPI/__pycache__
+/flaskAPI/__pycache__/

@@ -15,13 +15,11 @@ export class DevicesService {
   constructor(private http: HttpClient) {
     this.loadDevices();
   }
-
   
   refresh() {
     this.loadDevices();
   } 
     
-
   private loadDevices() {
     const url = this.url + 'pntDevs';
     this.http.get<Device[]>(url)

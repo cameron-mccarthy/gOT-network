@@ -11,7 +11,7 @@
                         placeholder="search for devices...">
                 </mat-form-field>
             </div>
-            <div class="vulnBox" *ngIf="this.router.url == '/vulnerabilities'">
+            <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
                 <button mat-raised-button (click)="scan()">Scan Devices</button>
                 <mat-form-field>
                     <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
@@ -26,7 +26,7 @@
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
             <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
-            <button class="sidebutton" mat-button [routerLink]="['vulnerabilities']">Vulnerabilities</button>
+            <button class="sidebutton" mat-button [routerLink]="['alerts']">Alerts</button>
             <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
