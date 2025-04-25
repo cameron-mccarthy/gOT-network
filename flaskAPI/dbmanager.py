@@ -137,6 +137,16 @@ def editDevice(mac, ip=None, product=None, vendor=None, type=None, status=None, 
         db.execute('''UPDATE devices SET ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, vendor, product, type, status, notes, mac))
         db.commit()
 
+def setAllDev(column, value):
+    with sqlite3.connect('devices.db') as db:
+        db.execute(f"UPDATE devices set {column} = ?", (value,))
+        db.commit()
+
+def updateStatus(mac, status):
+    with sqlite3.connect('devices.db') as db:
+        editDevice(mac, status=status)
+        db.commit()
+
 # vuln ops
 
 def addVuln(mac, sev, desc, url):
