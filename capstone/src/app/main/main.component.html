@@ -1,12 +1,11 @@
 <header class="header">
     <div class="left">
         <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
-        <button class = "scan" mat-fab (click)="scan()">Scan</button>
+        <button class = "scan" mat-fab (click)="scan()"><mat-icon fontIcon="sync"></mat-icon></button>
     </div>
     <section>
         <div class="deviceBox" *ngIf="this.router.url === '/'">
             <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
-            <button mat-fab (click)="refresh()"><mat-icon fontIcon="refresh"></mat-icon></button>
             <mat-form-field>
                 <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
                 <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
@@ -26,7 +25,7 @@
     <mat-drawer-container class="main">
         <mat-drawer class="drawer" mode="side" #drawer opened>
             <button class="sidebutton" mat-button [routerLink]="['']">Inventory</button>
-            <button class="sidebutton" mat-button [routerLink]="['alerts']"><p [matBadge]="notifications" matBadgeOverlap="false">Alerts</p></button>
+            <button class="sidebutton" mat-button [routerLink]="['alerts']"><p *ngIf="notifications > 0" [matBadge]="notifications" matBadgeOverlap="false">Alerts</p><p *ngIf="notifications == 0">Alerts</p></button>
             <button class="sidebutton" mat-button [routerLink]="['tutorial']">Tutorial</button>
         </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>

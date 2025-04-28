@@ -50,10 +50,6 @@ export class MainComponent {
     })
   }
 
-  refresh() {
-    this.DevicesService.refresh()
-  }
-
   searchDevices() {
     console.log(this.searchText)
   }
