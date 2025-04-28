@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DevicesService } from '../services/devices.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDeviceDialogComponent } from '../add-device-dialog/add-device-dialog.component';
+import { ScanDialogComponent } from '../scan-dialog/scan-dialog.component';
 import { CommonModule } from '@angular/common';
 import { VulnerabilityService } from '../services/vulnerability.service';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -29,9 +30,14 @@ export class MainComponent {
   ngOnInit() {
     this.AlertService.vulnList.subscribe(data => this.notifications = data.length)
   }
-  
+
   scan() {
-    this.DevicesService.scan()
+    const dialogRef = this.dialog.open(ScanDialogComponent,{data: {IP: "", Version: "", CS: ""}});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.DevicesService.scan(result)
+      }
+    })
   }
 
   add() {

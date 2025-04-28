@@ -1,0 +1,31 @@
+<h2 mat-dialog-title> Scan </h2>
+<mat-dialog-content>
+  <div class="row">
+    <section>
+      <mat-form-field>
+        <mat-label>Enter IP address</mat-label>
+        <input [formControl]="ipAddressControl" required matInput [(ngModel)]="IP">
+        @if (ipAddressControl.hasError('pattern')) {
+        <mat-error>Please enter a valid IP address</mat-error>
+        }
+      </mat-form-field>
+    </section>
+  </div>
+  <div class="row">
+    <section>
+      <mat-form-field>
+        <mat-label>Enter SNMP Version</mat-label>
+        <input matInput [(ngModel)]="Version">
+      </mat-form-field>
+    </section>
+    <section>
+      <mat-form-field>
+        <mat-label>Enter Community String</mat-label>
+        <input matInput [(ngModel)]="CS">
+      </mat-form-field>
+    </section>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [disabled]="check()" (click)="close()">Scan</button>
+</mat-dialog-actions>

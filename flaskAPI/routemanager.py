@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
-#import scan as scanner
+import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -138,14 +138,20 @@ def delVuln():
         db.delVuln(data.get('ID'))
         return jsonify(success=True)
 
-@app.route('/scanDevs', methods=['GET'])
+@app.route('/scanDevs', methods=['GET', 'POST'])
 def scanDevs():
     if request.method == 'GET':
-        ip = "10.10.10.254"
-        snmp_string = "Password3"
-        #scanner.getSNMPMAC(ip, community_string=snmp_string)
-        #scanner.getSNMPARP(ip, community_string=snmp_string)
-        #scanner.getVendor()
+        return "This is the /delVuln GET request!"
+    
+    if request.method == 'POST':
+        data = request.json
+        ip = data.get('IP')
+        version = data.get('Version')
+        snmp_string = data.get('CS')
+        print(f'IP: {ip}, Version: {version}, CS: {snmp_string}')
+        scanner.getSNMPMAC(ip, community_string=snmp_string)
+        scanner.getSNMPARP(ip, community_string=snmp_string)
+        scanner.getVendor()
         return jsonify(success=True)
 
 db.setupDevicesDB()
