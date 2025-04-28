@@ -67,6 +67,7 @@ export class DevicesService {
 
   addAlert(device: Device, error: string){
     alert(error)
+    this.loadDevices()
     this.AlertService.addAlert({ID: 0,
       MAC: device.MAC,
       IP: device.IP,

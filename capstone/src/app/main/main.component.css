@@ -29,7 +29,7 @@
 .deviceBox {
     display: flex;
     justify-content: space-between;
-    width: 55vmin;
+    width: 40vmin;
     padding: 10px;
 }
 

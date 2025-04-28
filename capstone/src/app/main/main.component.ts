@@ -22,7 +22,6 @@ import {MatBadgeModule} from '@angular/material/badge';
 })
 export class MainComponent {
   readonly dialog = inject(MatDialog);
-  searchText!: string;
   notifications: number = 0;
   constructor(public DevicesService: DevicesService, public router: Router, public AlertService: VulnerabilityService) {
   }
@@ -54,18 +53,6 @@ export class MainComponent {
         this.DevicesService.addDevice(result)
       }
     })
-  }
-
-  refresh() {
-    this.DevicesService.refresh()
-  }
-
-  searchDevices() {
-    console.log(this.searchText)
-  }
-
-  searchVuln() {
-    console.log(this.searchText)
   }
 
 }

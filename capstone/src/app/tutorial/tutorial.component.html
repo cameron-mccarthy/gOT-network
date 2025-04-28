@@ -4,7 +4,7 @@
     <h2>Table of Contents</h2>
     <li><button class="button" (click)="scrollToSection('section1')">Overview</button></li>
     <li><button class="button" (click)="scrollToSection('section2')">Inventory</button></li>
-    <li><button class="button" (click)="scrollToSection('section3')">Vulnerabilities</button></li>
+    <li><button class="button" (click)="scrollToSection('section3')">Alerts</button></li>
   </div>
 
   <!-- Sections -->
@@ -28,7 +28,7 @@
       <br>
         <h3>Backend</h3>
           <p>
-            The backend used <strong>easysnmp</strong> to query routers for their ARP tables to aquire a device's MAC and IP address.
+            The backend uses <strong>easysnmp</strong> to query routers for their ARP tables to aquire a device's MAC and IP address.
             This information is stored in a locally hosted <strong>SQLite</strong> database.
             Using <strong>Flask</strong>, a device's information is sent to the <strong>Angular</strong> website to be displayed using <strong>HTTP GET requests</strong>.
           </p>
@@ -41,7 +41,7 @@
         <img src="assets/inventorybar.png" height="100px" alt="Inventory Bar">
         <figcaption>
           The <strong>Add Button</strong> opens a pop up window where you can insert a device's information to be added to the table <br>
-          The <strong>Refresh Button</strong> < insert refresh button functionality > <br>
+          The <strong>Refresh Button</strong> refreshes the device table <br>
           The <strong>Search Box</strong> shows devices that match the property that was searched for <br>
         </figcaption>
       </figure>
@@ -62,9 +62,9 @@
     </section>
 
     <section #sections id="section3">
-      <h1>Vulnerabilties</h1>
-      <p>Vulnerabilities page tutorial</p>
-      Shows potential vulerabilities for devices
+      <h1>Alerts</h1>
+      <p>Alerts page tutorial</p>
+      Shows alerts on devices
     </section>
   </div>
 </div>
