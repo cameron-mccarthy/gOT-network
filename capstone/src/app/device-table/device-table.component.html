@@ -1,3 +1,8 @@
+<mat-form-field>
+    <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+    <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
+        placeholder="search for devices...">
+</mat-form-field>
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="Vendor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Vendor </th>

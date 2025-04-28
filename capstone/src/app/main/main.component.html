@@ -6,18 +6,8 @@
     <section>
         <div class="deviceBox" *ngIf="this.router.url === '/'">
             <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
-            <mat-form-field>
-                <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
-                <input matInput [(ngModel)]="searchText" (keydown.enter)="searchDevices()"
-                    placeholder="search for devices...">
-            </mat-form-field>
         </div>
         <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
-            <mat-form-field>
-                <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
-                <input matInput [(ngModel)]="searchText" (keydown.enter)="searchVuln()"
-                    placeholder="search for vulnerabilities...">
-            </mat-form-field>
         </div>
     </section>
 </header>

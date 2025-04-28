@@ -13,15 +13,20 @@ import { NotesDialogComponent } from '../notes-dialog/notes-dialog.component';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-device-table',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule, MatPaginatorModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule, MatPaginatorModule, MatInputModule, MatFormFieldModule, FormsModule, CommonModule],
   templateUrl: './device-table.component.html',
   styleUrl: './device-table.component.css'
 })
 
 export class DeviceTableComponent {
+  searchText!: string;
   readonly dialog = inject(MatDialog);
   ngOnInit() {
     this.DeviceService.deviceList.subscribe(data => this.dataSource.data = data)
@@ -71,5 +76,10 @@ export class DeviceTableComponent {
     const dialogRef = this.dialog.open(NotesDialogComponent, { data: { device: device } });
     dialogRef.afterClosed().subscribe(result => {
     })
+  }
+
+  searchDevices() {
+    console.log(this.searchText)
+    this.dataSource.filter = this.searchText.trim().toLowerCase();
   }
 }
