@@ -17,11 +17,11 @@ export class DevicesService {
   constructor(private http: HttpClient, private AlertService: VulnerabilityService) {
     this.loadDevices();
   }
-  
+
   refresh() {
     this.loadDevices();
-  } 
-    
+  }
+
   private loadDevices() {
     const url = this.url + 'pntDevs';
     this.http.get<Device[]>(url)
@@ -60,9 +60,9 @@ export class DevicesService {
     this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error.error)})
   }
 
-  scan(){
+  scan(scanData: {IP:string, Version:string, CS:string}){
     const url = this.url + 'scanDevs';
-    this.http.get(url).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+    this.http.post(url, scanData).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
   addAlert(device: Device, error: string){
