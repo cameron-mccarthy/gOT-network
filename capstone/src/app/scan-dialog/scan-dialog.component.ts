@@ -13,6 +13,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, Validators } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-scan-dialog',
@@ -24,6 +25,7 @@ import { FormControl, Validators } from '@angular/forms';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
+    MatSelectModule
   ],
   templateUrl: './scan-dialog.component.html',
   styleUrl: './scan-dialog.component.css'
