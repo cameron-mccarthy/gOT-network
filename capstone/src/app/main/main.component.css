@@ -14,8 +14,7 @@
     background: #03A9F4;
     display: flex;
     padding: 10px;
-    justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding-right: 30px;
     height: 10vmin;
 }
@@ -33,16 +32,14 @@
     padding: 10px;
 }
 
-.vulnBox {
-    display: flex;
-    align-items: baseline;
-    padding: 10px;
-}
-
 .left {
     display: flex;
     justify-content: space-between;
     width: 20vmin;
+}
+
+.add {
+    padding-left: 9vmin;
 }
 
 .scan {

@@ -21,24 +21,28 @@
   </div>
   <div class="row">
     <mat-form-field>
+      <mat-label>Enter Interface</mat-label>
+      <input matInput [(ngModel)]="newDevice.Interface">
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Enter Vendor</mat-label>
       <input matInput [(ngModel)]="newDevice.Vendor">
     </mat-form-field>
-    <div>
-      <mat-form-field>
-        <mat-label>Enter Product</mat-label>
-        <input required matInput [(ngModel)]="newDevice.Product">
-      </mat-form-field>
-    </div>
   </div>
+  <mat-form-field>
+    <mat-label>Enter Product</mat-label>
+    <input required matInput [(ngModel)]="newDevice.Product">
+  </mat-form-field>
   <mat-form-field>
     <mat-label>Enter Device Type</mat-label>
     <input matInput [(ngModel)]="newDevice.Type">
   </mat-form-field>
-  <mat-form-field>
-    <mat-label>Enter any additional info</mat-label>
-    <textarea matInput [(ngModel)]="newDevice.Notes"></textarea>
-  </mat-form-field>
+  <div>
+    <mat-form-field class="Notes">
+      <mat-label>Enter any additional info</mat-label>
+      <textarea  matInput [(ngModel)]="newDevice.Notes"></textarea>
+    </mat-form-field>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [disabled]="check()" (click)="close()">Save</button>

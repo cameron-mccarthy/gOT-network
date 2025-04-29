@@ -57,11 +57,12 @@ export class AddDeviceDialogComponent {
   ]);
 
   close() {
+    console.log(this.newDevice)
     this.dialogRef.close(this.newDevice);
   }
 
   check() {
-    return (this.ipAddressControl.hasError("pattern") || this.macAddressControl.hasError("pattern") || this.newDevice.Product == "" || this.ipAddressControl.hasError("required") || this.macAddressControl.hasError("required"));
+    return (this.ipAddressControl.hasError("pattern") || this.macAddressControl.hasError("pattern") || this.newDevice.Product === "" || this.ipAddressControl.hasError("required") || this.macAddressControl.hasError("required"));
   }
 
 }

@@ -3,13 +3,7 @@
         <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
         <button class = "scan" mat-fab (click)="scan()"><mat-icon fontIcon="sync"></mat-icon></button>
     </div>
-    <section>
-        <div class="deviceBox" *ngIf="this.router.url === '/'">
-            <button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button>
-        </div>
-        <div class="vulnBox" *ngIf="this.router.url == '/alerts'">
-        </div>
-    </section>
+    <div class="add" *ngIf="this.router.url === '/'"><button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button></div>
 </header>
 <main>
     <mat-drawer-container class="main">
