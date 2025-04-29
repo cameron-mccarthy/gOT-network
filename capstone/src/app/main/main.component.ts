@@ -43,6 +43,7 @@ export class MainComponent {
     const dialogRef = this.dialog.open(AddDeviceDialogComponent,{data: {edit: false, device: {
             IP: "",
             MAC: "",
+            Interface: "",
             Product: "",
             Type: "",
             Status: "Inactive",

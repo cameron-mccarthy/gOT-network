@@ -35,7 +35,7 @@ export class DeviceTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayColumns: string[] = ["IP", "MAC", "Vendor", "Product", "Type", "Status"];
+  displayColumns: string[] = ["IP", "MAC", "Interface", "Vendor", "Product", "Type", "Status"];
   constructor(public DeviceService: DevicesService) {
   }
   dataSource = new MatTableDataSource<Device>();
@@ -49,6 +49,7 @@ export class DeviceTableComponent {
     let modifiedDevice =  {
       IP: device.IP,
       MAC: device.MAC,
+      Interface: device.Interface,
       Product: device.Product,
       Type: device.Type,
       Status: device.Status,

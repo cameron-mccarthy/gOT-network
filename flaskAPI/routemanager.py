@@ -47,23 +47,23 @@ def addDev():
                 
                 # check if any device has that ip address
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
-                    db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+                    db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
                     return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
                 
                 else:
-                    db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+                    db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     return "ALERT: Duplicate MAC.\nConflicting device created.", 409
         
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
             db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
-            db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+            db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return "ALERT: Duplicate IP.\nConflicting device created", 409
         
         # No duplicate mac or ip addresses
         else:
-            db.addDevice(mac, ip, data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+            db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return jsonify(success=True)
 
         # try to look up the device
@@ -83,7 +83,7 @@ def editDev():
     
     if request.method == 'POST':
         data = request.json
-        db.editDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
+        db.editDevice(data.get('MAC'), data.get('IP'), data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
         return jsonify(success=True)
 
 @app.route('/delDev', methods=['GET', 'POST'])
@@ -150,6 +150,7 @@ def scanDevs():
         snmp_string = data.get('CS')
         print(f'IP: {ip}, Version: {version}, CS: {snmp_string}')
         scanner.getSNMPMAC(ip, community_string=snmp_string)
+        scanner.getSNMPPort(ip, community_string=snmp_string)
         scanner.getSNMPARP(ip, community_string=snmp_string)
         scanner.getVendor()
         return jsonify(success=True)

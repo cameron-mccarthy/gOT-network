@@ -14,6 +14,7 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS devices( 
                         MAC TEXT, 
                         IP TEXT, 
+                        INTERFACE TEXT,
                         VENDOR TEXT, 
                         PRODUCT TEXT,
                         TYPE TEXT,
@@ -33,15 +34,15 @@ def setupDevicesDB():
     db.execute('''CREATE TABLE IF NOT EXISTS vendors (
                 macPrefix TEXT PRIMARY KEY NOT NULL,
                 vendorName TEXT NOT NULL)''')
-    # updateVendor()
+    #updateVendor()
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
-def addDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
+def addDevice(mac, ip=None, product=None, interface=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (MAC, IP, Vendor, Product, Type, Status, Notes) VALUES( 
-                ?,?,?,?,?,?,?)''',(mac, ip, vendor, product, type, status, notes,))
+        db.execute('''INSERT INTO devices (MAC, IP, Interface, Vendor, Product, Type, Status, Notes) VALUES( 
+                ?,?,?,?,?,?,?,?)''',(mac, ip, interface,vendor, product, type, status, notes,))
         db.commit()
 
 def delDevice(mac,ip):
@@ -51,13 +52,13 @@ def delDevice(mac,ip):
         db.commit()
 
 # function that adds device if it doesn't exist, edits device if it does
-def importDevice(mac, ip=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
+def importDevice(mac, ip=None, interface=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Imports a device from the backend program.  If the device exists already, it is updated with new info.  Otherwise it is added.'''
     if (devExists(mac)):
-        editDevice(mac, ip, product, vendor, type, status, notes)
+        editDevice(mac, ip, product, interface, vendor, type, status, notes)
         return f"Device '{mac}' updated."
     else:
-        addDevice(mac, ip, product, vendor, type, status, notes)
+        addDevice(mac, ip, product, interface, vendor, type, status, notes)
         return f"Device '{mac}' added."
 
 def printDevices():
@@ -73,7 +74,7 @@ def printDevices():
 def jsonDevice(cursor):
     devices = []
     for entry in cursor:
-        device = {'MAC': entry[0], 'IP': entry[1], 'Vendor': entry[2], 'Product': entry[3], 'Type': entry[4], 'Status': entry[5], 'Notes': entry[6]}
+        device = {'MAC': entry[0], 'IP': entry[1], 'Interface': entry[2], 'Vendor': entry[3], 'Product': entry[4], 'Type': entry[5], 'Status': entry[6], 'Notes': entry[7]}
         devices.append(device)
     return devices
 
@@ -116,12 +117,13 @@ def extractDev(mac):
         cursor = db.cursor()
         cursor = db.execute('''select * from devices where mac = ?;''', (mac,))
         data = cursor.fetchall()
-        data = [{'MAC': entry[0], 'IP': entry[1], 'VENDOR': entry[2], 'PRODUCT': entry[3], 'TYPE': entry[4], 'STATUS': entry[5], 'NOTES': entry[6]} for entry in data]
+        data = [{'MAC': entry[0], 'IP': entry[1],'INTERFACE': entry[2], 'VENDOR': entry[3], 'PRODUCT': entry[4], 'TYPE': entry[5], 'STATUS': entry[6], 'NOTES': entry[7]} for entry in data]
         
         # rewrite as a dictionary
         edit = {'ID': data[0]['ID'],
                 'MAC': data[0]['MAC'],
                 'IP': data[0]['IP'],
+                'INTERFACE' : data[0]['INTERFACE'],
                 'Vendor': data[0]['VENDOR'],
                 'Product': data[0]["PRODUCT"],
                 'Type': data[0]["TYPE"],
@@ -129,13 +131,13 @@ def extractDev(mac):
                 'Notes': data[0]["NOTES"]}
         return edit
 
-def editDevice(mac, ip=None, product=None, vendor=None, type=None, status=None, notes=None):
+def editDevice(mac, ip=None, interface=None, product=None, vendor=None, type=None, status=None, notes=None):
     '''Edit one or more values of a device, even its MAC address'''
     
     with sqlite3.connect('devices.db') as db:
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
-        db.execute('''UPDATE devices SET ip = COALESCE(?, ip), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, vendor, product, type, status, notes, mac))
+        db.execute('''UPDATE devices SET ip = COALESCE(?, ip), interface = COALESCE(?, interface), vendor = COALESCE(?, vendor), product = COALESCE(?, product), type = COALESCE(?, type), status = COALESCE(?, status), notes = COALESCE(?, notes) WHERE mac = ?''', (ip, interface, vendor, product, type, status, notes, mac))
         db.commit()
 
 def setAllDev(column, value):

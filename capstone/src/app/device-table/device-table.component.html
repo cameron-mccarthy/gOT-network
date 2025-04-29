@@ -19,6 +19,11 @@
         <td mat-cell *matCellDef="let element"> {{element.MAC}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="Interface">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Interface </th>
+        <td mat-cell *matCellDef="let element"> {{element.Interface}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="Product">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
         <td mat-cell *matCellDef="let element"> {{element.Product}} </td>
