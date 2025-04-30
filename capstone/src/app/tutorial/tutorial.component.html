@@ -2,9 +2,9 @@
   <!-- Table of Contents -->
   <div class="toc">
     <h2>Table of Contents</h2>
-    <li><button class="button" (click)="scrollToSection('section1')">Overview</button></li>
-    <li><button class="button" (click)="scrollToSection('section2')">Inventory</button></li>
-    <li><button class="button" (click)="scrollToSection('section3')">Alerts</button></li>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section1')">Overview</button></li>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section2')">Inventory</button></li>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section3')">Alerts</button></li>
   </div>
 
   <!-- Sections -->
@@ -30,7 +30,7 @@
           <p>
             The backend uses <strong>easysnmp</strong> to query routers for their ARP tables to aquire a device's MAC and IP address.
             This information is stored in a locally hosted <strong>SQLite</strong> database.
-            Using <strong>Flask</strong>, a device's information is sent to the <strong>Angular</strong> website to be displayed using <strong>HTTP GET requests</strong>.
+            Using <strong>Flask</strong>, a device's information is sent to the <strong>Angular</strong> website to be displayed and edited using <strong>HTTP requests</strong>.
           </p>
     </section>
 

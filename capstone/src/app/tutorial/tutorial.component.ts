@@ -4,11 +4,12 @@ import { ElementRef } from '@angular/core';
 import { ViewChildren } from '@angular/core';
 import { QueryList } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-tutorial',
-  imports: [RouterModule],
+  imports: [RouterModule, MatButtonModule],
   templateUrl: './tutorial.component.html',
   styleUrl: './tutorial.component.css'
 })
