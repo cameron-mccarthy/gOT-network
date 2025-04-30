@@ -40,6 +40,7 @@ def addDev():
             # if they have the same ip address, don't create the device at all
             devIP = db.dbSearch('IP', 'MAC', 'devices', mac)
             if (ip == devIP[0][0]):
+                db.addVuln(mac, ip, 0, "Duplicate shared MAC and IP address.\nDevice entry was not created.", None)
                 return "ALERT: Duplicate shared MAC and IP address.\nDevice entry was not created.", 409
             else:
                 # add proper alerts.
