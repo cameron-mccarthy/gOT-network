@@ -28,23 +28,6 @@ export class DevicesService {
       .subscribe(devices => this.devicesSubject.next(devices));
   }
 
-  /*
-  // currently only does IP and MAC
-  getDeviceByMethod(method: string, target: string): Device | null {
-    if (method.toLowerCase() == "mac"){
-      for (let device of this.deviceList!) {
-        if (device.MAC === target) return device;
-      }
-    }
-    else if (method.toLowerCase() == "ip"){
-      for (let device of this.deviceList!) {
-        if (device.IP === target) return device;
-      }
-    }
-    return null;
-  }
-    */
-
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
     this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error)}})
