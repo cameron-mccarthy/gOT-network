@@ -2,6 +2,7 @@
     <div class="left">
         <button mat-fab (click)="drawer.toggle()"><mat-icon fontIcon="menu"></mat-icon></button>
         <button class = "scan" mat-fab (click)="scan()"><mat-icon fontIcon="sync"></mat-icon></button>
+        <img src="assets/logo.png" height="100px" alt="Inventory Bar">
     </div>
     <div class="add" *ngIf="this.router.url === '/'"><button mat-fab (click)="add()"><mat-icon fontIcon="add"></mat-icon></button></div>
 </header>
