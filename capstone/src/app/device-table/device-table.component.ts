@@ -17,10 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @Component({
   selector: 'app-device-table',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule, MatPaginatorModule, MatInputModule, MatFormFieldModule, FormsModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatMenuModule, MatSortModule, MatPaginatorModule, MatInputModule, MatFormFieldModule, FormsModule, CommonModule, MatTableExporterModule],
   templateUrl: './device-table.component.html',
   styleUrl: './device-table.component.css'
 })
@@ -30,6 +31,7 @@ export class DeviceTableComponent {
   readonly dialog = inject(MatDialog);
   ngOnInit() {
     this.DeviceService.deviceList.subscribe(data => this.dataSource.data = data)
+    
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -82,5 +84,8 @@ export class DeviceTableComponent {
   searchDevices() {
     console.log(this.searchText)
     this.dataSource.filter = this.searchText.trim().toLowerCase();
+  }
+  time(){
+    return new Date().toLocaleString()
   }
 }

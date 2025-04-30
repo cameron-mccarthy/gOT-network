@@ -50,17 +50,17 @@ def addDev():
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
-                    return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
+                    return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created."
                 
                 else:
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-                    return "ALERT: Duplicate MAC.\nConflicting device created.", 409
+                    return "ALERT: Duplicate MAC.\nConflicting device created."
         
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
             db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
             db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-            return "ALERT: Duplicate IP.\nConflicting device created", 409
+            return "ALERT: Duplicate IP.\nConflicting device created"
         
         # No duplicate mac or ip addresses
         else:

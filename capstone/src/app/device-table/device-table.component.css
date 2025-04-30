@@ -6,3 +6,15 @@
 .delete {
     color: red;
 }
+
+.action {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 38vmin;
+}
+
+.export {
+    background-color: #ffb921;
+    color: white;
+}

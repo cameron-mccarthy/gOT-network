@@ -47,7 +47,7 @@ export class DevicesService {
 
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error.error)}})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error)}})
   }
 
   deleteDevice(deleteDev: Device) {
@@ -57,7 +57,7 @@ export class DevicesService {
 
   editDevice(newDevice: Device) {
     const url = this.url + 'editDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error.error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error)})
   }
 
   scan(scanData: {IP:string, Version:string, CS:string}){
@@ -65,15 +65,11 @@ export class DevicesService {
     this.http.post(url, scanData).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
-  addAlert(device: Device, error: string){
-    alert(error)
-    this.loadDevices()
-    this.AlertService.addAlert({ID: 0,
-      MAC: device.MAC,
-      IP: device.IP,
-      Severity: 5,
-      Desc: error,
-      URL: null,
-      Notes: error})
+  addAlert(device: Device, error: any){
+    if (error.status == 409){
+      alert(error.error);
+    }
+    this.loadDevices();
+    this.AlertService.refresh();
   }
 }
