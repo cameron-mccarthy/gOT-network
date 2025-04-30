@@ -1,5 +1,5 @@
 .main {
-    height: 89vmin;
+    height: 87.9vmin;
 }
 
 .drawer {
@@ -17,6 +17,7 @@
     align-items: center;
     padding-right: 30px;
     height: 10vmin;
+    justify-content: space-between;
 }
 
 .sidebutton {
@@ -35,7 +36,8 @@
 .left {
     display: flex;
     justify-content: space-between;
-    width: 20vmin;
+    padding-left: 2vmin;
+    width: 30vmin;
 }
 
 .add {
