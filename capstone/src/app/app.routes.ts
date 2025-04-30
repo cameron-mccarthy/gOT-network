@@ -7,7 +7,7 @@ export const routes: Routes = [
     {
         path: "",
         component: DeviceTableComponent,
-        title: "Home Page"
+        title: "gOT Network?"
     },
     {
         path: "alerts",
