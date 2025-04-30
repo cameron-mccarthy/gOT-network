@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-vulnerabilities',
@@ -19,13 +20,19 @@ import { MatIconModule } from '@angular/material/icon';
 export class VulnerabilitiesComponent {
   vulnList!: Vulnerability[];
   searchText!: string;
+  filteredVulns!: Vulnerability[];
   
   constructor(public VulnerabilityService: VulnerabilityService) {
-    this.VulnerabilityService.vulnList.subscribe(x => this.vulnList = x);
+    this.VulnerabilityService.vulnList.subscribe(x => {this.filteredVulns = x; this.vulnList = x});
   }
   
   searchVuln() {
-    console.log(this.searchText)
+    console.log(this.searchText); 
+    this.filteredVulns = this.vulnList.filter(item =>
+      item.IP.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      item.MAC.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      item.Desc.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
 
