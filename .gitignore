@@ -7,8 +7,8 @@
 /bazel-out
 
 # Node
-/capstone/node_modules
-/capstone/.angular
+/node_modules
+/.angular
 npm-debug.log
 yarn-error.log
 
