@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
-import scan as scanner
+#import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -40,6 +40,7 @@ def addDev():
             # if they have the same ip address, don't create the device at all
             devIP = db.dbSearch('IP', 'MAC', 'devices', mac)
             if (ip == devIP[0][0]):
+                db.addVuln(mac, ip, 0, "Duplicate shared MAC and IP address.\nDevice entry was not created.", None)
                 return "ALERT: Duplicate shared MAC and IP address.\nDevice entry was not created.", 409
             else:
                 # add proper alerts.
@@ -49,17 +50,17 @@ def addDev():
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
-                    return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created.", 409
+                    return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created."
                 
                 else:
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-                    return "ALERT: Duplicate MAC.\nConflicting device created.", 409
+                    return "ALERT: Duplicate MAC.\nConflicting device created."
         
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
             db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
             db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
-            return "ALERT: Duplicate IP.\nConflicting device created", 409
+            return "ALERT: Duplicate IP.\nConflicting device created"
         
         # No duplicate mac or ip addresses
         else:
@@ -149,10 +150,10 @@ def scanDevs():
         version = data.get('Version')
         snmp_string = data.get('CS')
         print(f'IP: {ip}, Version: {version}, CS: {snmp_string}')
-        scanner.getSNMPMAC(ip, community_string=snmp_string)
-        scanner.getSNMPPort(ip, community_string=snmp_string)
-        scanner.getSNMPARP(ip, community_string=snmp_string)
-        scanner.getVendor()
+        #scanner.getSNMPMAC(ip, community_string=snmp_string)
+        #scanner.getSNMPPort(ip, community_string=snmp_string)
+        #scanner.getSNMPARP(ip, community_string=snmp_string)
+        #scanner.getVendor()
         return jsonify(success=True)
 
 db.setupDevicesDB()

@@ -1,0 +1,126 @@
+<div class="tutorial-page">
+  <!-- Table of Contents -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section1')">Overview</button></li>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section2')">Inventory</button></li>
+    <li><button mat-stroked-button class="button" (click)="scrollToSection('section3')">Alerts</button></li>
+  </div>
+
+  <!-- Sections -->
+  <div class="content">
+    <section #sections id="section1">
+      <h1>Overview</h1>
+      <p>
+         gOT Network is a network enumeration tool developed with the goal of increasing visibility within operational technology networking environments.
+         Operational technology network environments often have low visibility stemming from a variety of criteria, including the type of devices on the network, obtuse network topologies, and a lack of logging.
+         This lack of visibility can lead to non compliant patch management, configuration oversights, and potential vulnerabilities.
+         The gOT Network seeks to help improve this issue of network visibility by connecting to the network and noninvasively collecting available data.
+         Utilizing simple network management protocol with compatible devices such as routers and switches we can query them for their ARP and MAC tables.
+         Using this gathered information we can help to provide a clearer idea of what all a network has to offer.
+         Packaging the final result for IT staff members, they can choose the best course of action when it comes to hardening their network.
+      </p>
+      <br>
+        <h3>Frontend</h3>
+          <p>
+            The frontend is a locally hosted website built by using <strong>Angular</strong>. It utilizes many Angular libraries for functionality, such as the <strong>core</strong> and <strong>material</strong> libraries, to display the information gathered from the backend.
+          </p>
+      <br>
+        <h3>Backend</h3>
+          <p>
+            The backend uses <strong>easysnmp</strong> to query routers for their ARP tables to aquire a device's MAC and IP address.
+            This information is stored in a locally hosted <strong>SQLite</strong> database.
+            Using <strong>Flask</strong>, a device's information is sent to the <strong>Angular</strong> website to be displayed and edited using <strong>HTTP requests</strong>.
+          </p>
+    </section>
+
+    <section #sections id="section2">
+      <h1>Inventory</h1>
+      The inventory page allows you to view a table of all the devices being monitored and their respective properties <br>
+      <figure>
+        <img src="assets/scanbutton.png" alt="Scan Button">
+        <figcaption>
+          The <strong>Scan Button</strong> allows devices to automatically be added to the table by adding devices from a networking device's <strong>ARP table</strong>.
+        </figcaption>
+        <br>
+        <img src="assets/scandialog.png" height="300px" alt="Scan Button Dialog Box">
+        <figcaption>
+          When the scan button is clicked, a dialog box will appear to insert information for the scan.<br>
+          The networking device's IP address, SNMP version, and community string are all required to conduct a scan.
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/searchbar.png" height="100px" alt="Inventory Bar">
+        <figcaption>
+          Use the <strong>Search Box</strong> to filter the devices in the table that match a given property.<br>
+          Type the property you want to search for and press <strong>enter</strong>.
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/addbutton.png" alt="Add Button">
+        <figcaption>
+          The <strong>add button</strong> allows you to add devices to the inventory to be displayed in the table.
+        </figcaption>
+        <br>
+        <img src="assets/adddialog.png" height="300px" alt="Add Button Dialog Box">
+        <figcaption>
+          When the add button is clicked, a dialog box will appear to insert a device's information.<br>
+          The IP address, MAC address, and product name are all required to add a device.
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/three dots.png" alt="Three Dots">
+        <figcaption>
+          When clicking the <strong>Three Dots</strong> next to a device in the table, you can <strong>change the notes, edit, or delete</strong> the device
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/sorting.png" alt="Sorting">
+        <figcaption>
+          You can <strong>Sort</strong> in ascending or descending order based on any property in the table by clicking the propety at the top of the table
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/exportbutton.png" alt="Export Button">
+        <figcaption>
+          The <strong>Export Button</strong> will download a <strong>csv file</strong> of the current table of devices.<br>
+          You can download a group of certain devices by filtering the table first.<br>
+          The file name corresponds to the date and time the table was exported.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section #sections id="section3">
+      <h1>Alerts</h1>
+      <figure>
+        <img src="assets/alerts.png" alt="Alert Notifications">
+        <figcaption>
+          In the menu bar, the <strong>number of alerts</strong> is shown as a notifcation bubble next on the alerts tab.
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/searchalerts.png" alt="Search Alerts Bar">
+        <figcaption>
+          Use the <strong>Search Box</strong> to filter the alerts to show alerts for an IP address, MAC address, or alert types.<br>
+          Type what you want to search for and press <strong>enter</strong>.
+        </figcaption>
+      </figure>
+      <br>
+      <figure>
+        <img src="assets/trashcan.png" alt="Trashcan">
+        <figcaption>
+          Click on the <strong>Trashcan</strong> to remove the respective alert.
+        </figcaption>
+      </figure>
+    </section>
+  </div>
+  <a href="https://github.com/cameron-mccarthy/CapstoneFrontend">gOT Network Source Code</a>
+  <br>
+  <br>
+</div>

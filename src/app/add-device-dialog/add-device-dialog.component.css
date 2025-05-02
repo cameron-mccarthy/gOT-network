@@ -1,0 +1,8 @@
+.row{
+    display: flex;
+    align-items: center;
+}
+
+.Notes{
+    width: 45vmin;
+}

@@ -38,7 +38,7 @@ def setupDevicesDB():
     #except:
     #    db = sqlite3.connect('devices.db', check_same_thread=False)
 
-def addDevice(mac, ip=None, product=None, interface=None, vendor=None, type=None, status='Inactive', notes=None):
+def addDevice(mac, ip=None, interface=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
         db.execute('''INSERT INTO devices (MAC, IP, Interface, Vendor, Product, Type, Status, Notes) VALUES( 

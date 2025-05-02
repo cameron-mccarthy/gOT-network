@@ -1,0 +1,49 @@
+.main {
+    height: 87.9vmin;
+}
+
+.drawer {
+    background: #e5edff;
+    width: 19vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.header {
+    background: #03A9F4;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    padding-right: 30px;
+    height: 10vmin;
+    justify-content: space-between;
+}
+
+.sidebutton {
+    width: 100%;
+    font-size: 2vmin;
+    color: #252525 !important;
+}
+
+.deviceBox {
+    display: flex;
+    justify-content: space-between;
+    width: 40vmin;
+    padding: 10px;
+}
+
+.left {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2vmin;
+    width: 30vmin;
+}
+
+.add {
+    padding-left: 9vmin;
+}
+
+.scan {
+    font-size: 14pt;
+}

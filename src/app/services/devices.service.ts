@@ -1,0 +1,58 @@
+import { Injectable } from '@angular/core';
+import { Device } from '../interfaces/device';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Vulnerability } from '../interfaces/vulnerability';
+import { VulnerabilityService } from './vulnerability.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DevicesService {
+  url: string = 'http://localhost:5000/'
+
+  private devicesSubject = new BehaviorSubject<Device[]>([]);
+  public deviceList: Observable<Device[]> = this.devicesSubject.asObservable();
+
+  constructor(private http: HttpClient, private AlertService: VulnerabilityService) {
+    this.loadDevices();
+  }
+
+  refresh() {
+    this.loadDevices();
+  }
+
+  private loadDevices() {
+    const url = this.url + 'pntDevs';
+    this.http.get<Device[]>(url)
+      .subscribe(devices => this.devicesSubject.next(devices));
+  }
+
+  addDevice(newDevice: Device) {
+    const url = this.url + 'addDev';
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error)}})
+  }
+
+  deleteDevice(deleteDev: Device) {
+    const url = this.url + 'delDev';
+    this.http.post(url, deleteDev).subscribe(() => {this.loadDevices()}, error => {alert(error.error)} )
+  }
+
+  editDevice(newDevice: Device) {
+    const url = this.url + 'editDev';
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error)})
+  }
+
+  scan(scanData: {IP:string, Version:string, CS:string}){
+    const url = this.url + 'scanDevs';
+    this.http.post(url, scanData).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
+  }
+
+  addAlert(device: Device, error: any){
+    if (error.status == 409){
+      alert(error.error);
+    }
+    this.loadDevices();
+    this.AlertService.refresh();
+  }
+}

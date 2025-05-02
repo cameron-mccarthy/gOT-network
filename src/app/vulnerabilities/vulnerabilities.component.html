@@ -1,0 +1,14 @@
+<mat-form-field>
+  <span matTextPrefix><mat-icon fontIcon="search"></mat-icon></span>
+  <input matInput [(ngModel)]="searchText" (keydown.enter)="searchVuln()"
+      placeholder="search alerts...">
+</mat-form-field>
+
+<app-vulnerability-card
+*ngFor = "let data of filteredVulns"
+  [card]="data">
+</app-vulnerability-card>
+
+<div *ngIf="filteredVulns.length === 0 && searchText">
+  No results found for "{{ searchText }}"
+</div>
