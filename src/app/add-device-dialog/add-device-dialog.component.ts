@@ -62,7 +62,7 @@ export class AddDeviceDialogComponent {
   }
 
   check() {
-    return (this.ipAddressControl.hasError("pattern") || this.macAddressControl.hasError("pattern") || this.newDevice.Product === "" || this.ipAddressControl.hasError("required") || this.macAddressControl.hasError("required"));
+    return (this.ipAddressControl.hasError("pattern") || this.macAddressControl.hasError("pattern") || this.ipAddressControl.hasError("required") || this.macAddressControl.hasError("required"));
   }
 
 }
