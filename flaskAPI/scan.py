@@ -24,13 +24,23 @@ def getSNMPPort(snmp_target, version=2, community_string="public"):
     mac_to_bp_data = snmpScan(snmp_target, ".1.3.6.1.2.1.17.4.3.1.2", version, community_string)
     bp_to_if_data = snmpScan(snmp_target, ".1.3.6.1.2.1.17.1.4.1.2", version, community_string)
     if_to_name_data = snmpScan(snmp_target, ".1.3.6.1.2.1.2.2.1.2", version, community_string)
+
+    svi_to_if_data = snmpScan(snmp_target, "1.3.6.1.2.1.4.20.1.2", version, community_string)
     
+    if not mac_to_bp_data:
+        mac_to_bp_data = snmpScan(snmp_target, ".1.3.6.1.2.1.17.7.1.2.2.1.2", version, community_string)
+
     bp_to_if = {}
     if_to_name = {}
+    if_to_ip = {}
 
-
-    if mac_to_bp_data == None or bp_to_if_data == None or if_to_name_data == None:
+    if mac_to_bp_data == None or bp_to_if_data == None or if_to_name_data == None or svi_to_if_data == None:
         return
+
+    for entry in svi_to_if_data:
+        interface = entry.value
+        ip = entry.oid_index
+        if_to_ip[interface] = ip
 
     for entry in if_to_name_data:
         name = entry.value
@@ -42,21 +52,42 @@ def getSNMPPort(snmp_target, version=2, community_string="public"):
         interface = entry.value
         bp_to_if[bridge_port] = interface
 
+    #print(f'{mac_to_bp_data} \n {bp_to_if} \n {if_to_name}')
     for entry in mac_to_bp_data:
         bridge_port = entry.value
         raw_mac = entry.oid.split(".")[-6:]
         mac = ("-".join(f"{int(byte):02x}" for byte in raw_mac)).upper()
 
-        interface = if_to_name[bp_to_if[bridge_port]]
+        if bridge_port in bp_to_if:
+            interface = bp_to_if[bridge_port]
+            if interface in if_to_name:
+                name = if_to_name[bp_to_if[bridge_port]]
+        elif bridge_port in if_to_name:
+            interface = bridge_port
+            name = if_to_name[bridge_port]
+        else:
+            interface = None
+            name = "Unknown"
+
+        ip = None
+        if interface in if_to_ip:
+            ip = if_to_ip[interface]
 
         dev = db.dbSearch(value=mac)
 
         if not dev:
-            db.addDevice(mac, interface=interface, status="Active")
-        else:
-            db.editDevice(mac, interface=interface, status="Active")
+            if ip is None:
+                db.addDevice(mac, interface=name, status="Active")
+            else:
+                db.addDevice(mac, ip=ip, interface=name, status="Active")
 
-        print(f"MAC: {mac}, Interface: {interface}")
+        else:
+            if ip is None:
+                db.editDevice(mac, interface=name, status="Active")
+            else:
+                db.editDevice(mac, ip=ip, interface=name, status="Active")
+
+        print(f"MAC: {mac}, IP: {ip}, Interface: {interface}, Name: {name}")
 
 def getSNMPMAC(snmp_target, version=2, community_string="public"):
     data = snmpScan(snmp_target,"1.3.6.1.2.1.17.7.1.2.2", version, community_string)
@@ -122,12 +153,12 @@ if __name__ == '__main__':
     print_devices = 0
     print_vendors = 0
     test_arp_scan = 0
-    remake_db = 1
+    remake_db = 0
     test_port_map = 0
     if remake_db:
         db.setupDevicesDB()
     if test_port_map:
-        getSNMPPort("10.10.10.254", community_string="Password3")
+        getSNMPPort("172.25.4.42", community_string="Password3")
     if print_vendors:
         print(f"Vendor format:\n{'*'*40}")
         conn = sqlite3.connect("devices.db")
