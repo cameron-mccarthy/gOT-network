@@ -14,6 +14,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-scan-dialog',
@@ -25,21 +26,23 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatSelectModule
+    MatSelectModule,
+    CommonModule
   ],
   templateUrl: './scan-dialog.component.html',
   styleUrl: './scan-dialog.component.css'
 })
 export class ScanDialogComponent {
   readonly dialogRef = inject(MatDialogRef<ScanDialogComponent>);
-  readonly data = inject(MAT_DIALOG_DATA);
-  IP:string;
-  Version:string;
-  CS:string;
+  IP: string = "";
+  Version: string = "";
+  CS: string = "";
+  Username: string = "";
+  EncryptionProtocol: string = "";
+  EncryptionPassword: string = "";
+  AuthenticationProtocol: string = "";
+  AuthenticationPassword: string = "";
   constructor() {
-    this.IP = this.data.IP
-    this.Version = this.data.Version
-    this.CS = this.data.CS
   }
 
   ngOnInit(){
@@ -52,11 +55,12 @@ export class ScanDialogComponent {
   ]);
 
   close() {
-    this.dialogRef.close({IP: this.IP, Version: this.Version, CS: this.CS});
+    this.dialogRef.close({IP: this.IP, Version: this.Version, CS: this.CS, Username: this.Username, EncryptionPassword: this.EncryptionPassword, EncryptionProtocol: this.EncryptionProtocol, AuthenticationPassword: this.AuthenticationPassword, AuthenticationProtocol: this.AuthenticationProtocol});
   }
 
   check() {
-    return (this.ipAddressControl.hasError("pattern") || this.ipAddressControl.hasError("required") || this.Version == "" || this.CS == "" );
+    return (this.ipAddressControl.hasError("pattern") || this.ipAddressControl.hasError("required") || this.Version == "" ||  ((this.Version == "1" || this.Version =="2") && this.CS == "" )
+   || (this.Version == "3" && (this.AuthenticationPassword == "" || this.AuthenticationProtocol == "" || this.EncryptionPassword == "" || this.Username == "" || this.EncryptionProtocol == "")));
   }
 
 }

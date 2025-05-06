@@ -43,7 +43,7 @@ export class DevicesService {
     this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error)})
   }
 
-  scan(scanData: {IP:string, Version:string, CS:string}){
+  scan(scanData: object){
     const url = this.url + 'scanDevs';
     this.http.post(url, scanData).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
