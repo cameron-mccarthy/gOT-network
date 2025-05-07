@@ -31,7 +31,7 @@ export class MainComponent {
   }
 
   scan() {
-    const dialogRef = this.dialog.open(ScanDialogComponent,{data: {IP: "", Version: "", CS: ""}});
+    const dialogRef = this.dialog.open(ScanDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.DevicesService.scan(result)
