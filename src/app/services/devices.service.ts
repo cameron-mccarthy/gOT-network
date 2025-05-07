@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { VulnerabilityService } from './vulnerability.service';
 
 @Injectable({
@@ -17,11 +17,7 @@ export class DevicesService {
     this.loadDevices();
   }
 
-  refresh() {
-    this.loadDevices();
-  }
-
-  private loadDevices() {
+  loadDevices() {
     const url = this.url + 'pntDevs';
     this.http.get<Device[]>(url)
       .subscribe(devices => this.devicesSubject.next(devices));
@@ -52,6 +48,6 @@ export class DevicesService {
       alert(error.error);
     }
     this.loadDevices();
-    this.AlertService.refresh();
+    this.AlertService.loadAlerts();
   }
 }
