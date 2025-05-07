@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
 import dbmanager as db
-#import scan as scanner
+import scan as scanner
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +15,7 @@ def default():
 def printDevs():
     if request.method == 'GET':
         return jsonify(db.printDevices())
-    
+
     if request.method == 'POST':
         data = request.json
         # the value to sort by, whatever that is
@@ -27,7 +27,7 @@ def printDevs():
 def addDev():
     if request.method == 'GET':
         return "This is the /addDev GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
         ip = data.get('IP')
@@ -45,23 +45,23 @@ def addDev():
             else:
                 # add proper alerts.
                 db.addVuln(mac, ip, 5, "Duplicate MAC address.  Potential MAC spoofing.", None)
-                
+
                 # check if any device has that ip address
                 if (db.dbSearch('MAC', 'IP', 'devices', ip)):
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
                     return "ALERT: Duplicate MAC.\nALERT: Duplicate IP.\nConflicting device created."
-                
+
                 else:
                     db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
                     return "ALERT: Duplicate MAC.\nConflicting device created."
-        
+
         # that ip address is already used
         elif (db.dbSearch('MAC', 'IP', 'devices', ip)):
             db.addVuln(mac, ip, 3, "Duplicate IP address.", None)
             db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
             return "ALERT: Duplicate IP.\nConflicting device created"
-        
+
         # No duplicate mac or ip addresses
         else:
             db.addDevice(mac, ip, data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
@@ -74,14 +74,14 @@ def addDev():
         #except:
         #    db.addDevice(data.get('MAC'), data.get('IP'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
         #    return jsonify(success=True)
-        
+
         #return "ERROR: Duplicate MAC.\nDevice could not be created."
 
 @app.route('/editDev', methods=['GET', 'POST'])
 def editDev():
     if request.method == 'GET':
         return "This is the /editDev GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
         db.editDevice(data.get('MAC'), data.get('IP'), data.get('Interface'), data.get('Product'), data.get('Vendor'), data.get('Type'), data.get('Status'), data.get('Notes'))
@@ -91,7 +91,7 @@ def editDev():
 def delDev():
     if request.method == 'GET':
         return "This is the /delDev GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
         mac = data.get('MAC')
@@ -104,7 +104,7 @@ def delDev():
 def printVulns():
     if request.method == 'GET':
         return jsonify(db.printVulns())
-    
+
     if request.method == 'POST':
         data = request.json
         # find only vulnerabilities on a specific device
@@ -123,7 +123,7 @@ def addVuln():
 def editVuln():
     if request.method == 'GET':
         return "This is the /editVuln GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
         db.editVuln(data.get('ID'), data.get('Notes'))
@@ -133,7 +133,7 @@ def editVuln():
 def delVuln():
     if request.method == 'GET':
         return "This is the /delVuln GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
         db.delVuln(data.get('ID'))
@@ -143,9 +143,10 @@ def delVuln():
 def scanDevs():
     if request.method == 'GET':
         return "This is the /delVuln GET request!"
-    
+
     if request.method == 'POST':
         data = request.json
+        print(data)
         ip = data.get('IP')
         version = data.get('Version')
         snmp_string = data.get('CS')

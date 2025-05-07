@@ -2,12 +2,11 @@ import sqlite3
 import easysnmp
 import dbmanager as db
 
-def snmpScan(snmp_target, oid, version=2,community_string="public"):
+def snmpScan(snmp_target, oid, version=2,community_string="public", username="Admin", encryption_protocol="AES", encryption_password="Demo", auth_protocol="SHA1", auth_password="Demo"):
     if version == 2:
         session = easysnmp.Session(hostname=snmp_target, community=community_string, version=2)
     elif version == 3:
-        #TODO: add support for v3
-        return
+        session = easysnmp.Session(hostname=snmp_target, security_username=username, privacy_protocol=encryption_protocol, privacy_password=encryption_password, auth_protocol=auth_protocol, auth_password=auth_password, version=3)
     else:
         #TODO: do we want to support snmp v1? maybe just print error message
         return
@@ -26,7 +25,7 @@ def getSNMPPort(snmp_target, version=2, community_string="public"):
     if_to_name_data = snmpScan(snmp_target, ".1.3.6.1.2.1.2.2.1.2", version, community_string)
 
     svi_to_if_data = snmpScan(snmp_target, "1.3.6.1.2.1.4.20.1.2", version, community_string)
-    
+
     if not mac_to_bp_data:
         mac_to_bp_data = snmpScan(snmp_target, ".1.3.6.1.2.1.17.7.1.2.2.1.2", version, community_string)
 
@@ -94,28 +93,21 @@ def getSNMPMAC(snmp_target, version=2, community_string="public"):
     if data == None:
         return
     data = data[:(len(data) // 2)]
-
-
     for entry in data:
         full_mac = entry.oid.split('.')[-6:]
         if len(full_mac) == 6:
             mac = ("-".join(f"{int(byte):02x}" for byte in full_mac)).upper()
-            #TODO update device db with dev of this mac
-            # this is just to print rn
-
             dev = db.dbSearch(value=mac)
-
             if not dev:
                 db.addDevice(mac, status="Active")
             else:
                 db.editDevice(mac, status="Active")
-                
             print(f"MAC: {mac}")
     return
 
 def getSNMPARP(snmp_target, version=2, community_string="public"):
     data = snmpScan(snmp_target,"1.3.6.1.2.1.4.22.1.2", version, community_string)
-    
+
     # set all devices to inactive, then manually update the devices that are found
     db.setAllDev("status", "Inactive")
     if data == None:
@@ -133,7 +125,7 @@ def getSNMPARP(snmp_target, version=2, community_string="public"):
             db.editDevice(mac, ip=ip, status="Active")
 
         print(f"IP: {ip}, MAC: {mac}")
-        
+
 
 def getVendor():
     # get devices with an mac and no vendor
@@ -153,7 +145,7 @@ if __name__ == '__main__':
     print_devices = 0
     print_vendors = 0
     test_arp_scan = 0
-    remake_db = 0
+    remake_db = 1
     test_port_map = 0
     if remake_db:
         db.setupDevicesDB()

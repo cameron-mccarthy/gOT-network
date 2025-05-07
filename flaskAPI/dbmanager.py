@@ -11,17 +11,17 @@ def setupDevicesDB():
     # connect to/create the devices database
     # try:
     db = sqlite3.connect('devices.db') #, check_same_thread=False)
-    db.execute('''CREATE TABLE IF NOT EXISTS devices( 
-                        MAC TEXT, 
-                        IP TEXT, 
+    db.execute('''CREATE TABLE IF NOT EXISTS devices(
+                        MAC TEXT,
+                        IP TEXT,
                         INTERFACE TEXT,
-                        VENDOR TEXT, 
+                        VENDOR TEXT,
                         PRODUCT TEXT,
                         TYPE TEXT,
                         STATUS TEXT,
                         NOTES TEXT,
                         UNIQUE(MAC, IP));''')
-    
+
     db.execute('''CREATE TABLE IF NOT EXISTS vulns(
                 ID INTEGER PRIMARY KEY,
                 MAC TEXT,
@@ -41,7 +41,7 @@ def setupDevicesDB():
 def addDevice(mac, ip=None, interface=None, product=None, vendor=None, type=None, status='Inactive', notes=None):
     '''Add a device to the database.  MAC, IP, and product are required inputs.'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO devices (MAC, IP, Interface, Vendor, Product, Type, Status, Notes) VALUES( 
+        db.execute('''INSERT INTO devices (MAC, IP, Interface, Vendor, Product, Type, Status, Notes) VALUES(
                 ?,?,?,?,?,?,?,?)''',(mac, ip, interface,vendor, product, type, status, notes,))
         db.commit()
 
@@ -65,9 +65,9 @@ def printDevices():
     '''Print all devices in database'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-    
-        cursor = db.execute('''SELECT * FROM devices;''') 
-        
+
+        cursor = db.execute('''SELECT * FROM devices;''')
+
         devices = jsonDevice(cursor)
         return devices
 
@@ -93,7 +93,7 @@ def printDBRowIDs():
     '''Print all the id numbers of device entries'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-        cursor = db.execute('''SELECT rowid FROM devices;''') 
+        cursor = db.execute('''SELECT rowid FROM devices;''')
         data = cursor.fetchall()
         print(data)
 
@@ -118,7 +118,7 @@ def extractDev(mac):
         cursor = db.execute('''select * from devices where mac = ?;''', (mac,))
         data = cursor.fetchall()
         data = [{'MAC': entry[0], 'IP': entry[1],'INTERFACE': entry[2], 'VENDOR': entry[3], 'PRODUCT': entry[4], 'TYPE': entry[5], 'STATUS': entry[6], 'NOTES': entry[7]} for entry in data]
-        
+
         # rewrite as a dictionary
         edit = {'ID': data[0]['ID'],
                 'MAC': data[0]['MAC'],
@@ -133,7 +133,7 @@ def extractDev(mac):
 
 def editDevice(mac, ip=None, interface=None, product=None, vendor=None, type=None, status=None, notes=None):
     '''Edit one or more values of a device, even its MAC address'''
-    
+
     with sqlite3.connect('devices.db') as db:
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
@@ -155,7 +155,7 @@ def updateStatus(mac, status):
 def addVuln(mac, ip, sev, desc, url):
     '''Add a vulnerability to a device'''
     with sqlite3.connect('devices.db') as db:
-        db.execute('''INSERT INTO vulns (ID, MAC, IP, severity, desc, url, Notes) VALUES( 
+        db.execute('''INSERT INTO vulns (ID, MAC, IP, severity, desc, url, Notes) VALUES(
                 Null,?,?,?,?,?,Null)''',(mac, ip, sev, desc, url))
         db.commit()
 
@@ -175,9 +175,9 @@ def printVulns(mac=None):
     '''Print all vulns in database'''
     with sqlite3.connect('devices.db') as db:
         cursor = db.cursor()
-    
+
         if not mac:
-            cursor = db.execute('''SELECT * FROM vulns;''') 
+            cursor = db.execute('''SELECT * FROM vulns;''')
         else:
             cursor = db.execute('''SELECT * FROM vulns WHERE mac=?''',(mac,))
 
@@ -194,7 +194,7 @@ def jsonVuln(cursor):
 
 def editVuln(id, notes=None):
     '''Edit the note attribute of a vulnerability.  Must call by vuln id.'''
-    
+
     with sqlite3.connect('devices.db') as db:
         # Coalesce chooses the first non-null option, and requires at least two options.  The second value is the current, previous value.
         # tldr, this updates only the values that have specifically been changed.
@@ -228,7 +228,7 @@ def vendorLookup(macPrefix):
         return device_vendor[0][0]
 
 def updateVendor():
-    
+
     URL = "https://maclookup.app/downloads/json-database/get-db"
     response = requests.get(url = URL)
     data = response.json()

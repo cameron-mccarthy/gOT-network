@@ -257,40 +257,60 @@ declare -A vendors=(
 
 case "$1" in
   create)
+    if ! ip link show br0 &> /dev/null; then
+        echo "Creating bridge br0..."
+        sudo ip link add name br0 type bridge
+        sudo ip addr add 10.10.10.1/24 dev br0
+        sudo ip link set br0 up
+    else
+        echo "Bridge br0 already exists."
+    fi
+
+    counter=2
+    for iface in "${!vendors[@]}"; do
+        mac_prefix=${vendors[$iface]}
+        mac="${mac_prefix}:$(printf "%02x" $((RANDOM%256))):$(printf "%02x" $((RANDOM%256))):$(printf "%02x" $((RANDOM%256)))"
+
+        echo "iface: $iface , mac: $mac "
+        sudo ip link add link br0 name "$iface" type macvlan mode bridge
+        sudo ip link set "$iface" address "$mac"
+        sudo ip addr add "10.10.10.$((counter + 1))/24" dev "$iface"
+        sudo ip link set "$iface" up
+
+        echo "$iface created with MAC $mac and IP 10.10.10.$((counter + 1))"
+        ((counter++))
+    done
     ;;
   destroy)
+    for iface in "${!vendors[@]}"; do
+        if ip link show "$iface" &> /dev/null; then
+            echo "Deleting interface $iface..."
+            sudo ip link delete "$iface"
+        else
+            echo "Interface $iface does not exist."
+        fi
+    done
+
+    if ip link show br0 &> /dev/null; then
+        echo "Deleting bridge br0..."
+        sudo ip link set br0 down
+        sudo ip link delete br0 type bridge
+    else
+        echo "Bridge br0 does not exist."
+    fi
     ;;
   ping)
+    while :
+    do
+      for iface in "${!vendors[@]}"; do
+        ping -c1 -I $iface 10.10.10.254
+        sleep 0.25
+      done
+      sleep 10
+    done
     ;;
   *)
     echo "Usage: $0 {create|destroy|ping}"
     exit 1
     ;;
-if ! ip link show br0 &> /dev/null; then
-    echo "Creating bridge br0..."
-    sudo ip link add name br0 type bridge
-    sudo ip addr add 10.10.10.1/24 dev br0
-    sudo ip link set br0 up
-else
-    echo "Bridge br0 already exists."
-fi
-
-counter=2
-for iface in "${!vendors[@]}"; do
-    mac_prefix=${vendors[$iface]}
-    mac="${mac_prefix}:$(printf "%02x" $((RANDOM%256))):$(printf "%02x" $((RANDOM%256))):$(printf "%02x" $((RANDOM%256)))"
-
-    echo "iface: $iface , mac: $mac "
-    sudo ip link add link br0 name "$iface" type macvlan mode bridge
-    sudo ip link set "$iface" address "$mac"
-    sudo ip addr add "10.10.10.$((counter + 1))/24" dev "$iface"
-    sudo ip link set "$iface" up
-
-    echo "$iface created with MAC $mac and IP 10.10.10.$((counter + 1))"
-    ((counter++))
-done
-
-while :
-do
-  for iface in "${!vendors[@]}"; do
-    ping -c1 -I $iface
+esac
