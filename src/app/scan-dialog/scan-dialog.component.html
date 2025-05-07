@@ -42,11 +42,11 @@
     <div class="row">
       <mat-form-field>
         <mat-label>Encryption Password</mat-label>
-        <input required matInput [(ngModel)]="EncryptionPassword">
+        <input required matInput [type]="'password'" [(ngModel)]="EncryptionPassword">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Authentication Protocol</mat-label>
-        <mat-select required [(value)]="AuthenticationProtocol">
+        <mat-select required  [(value)]="AuthenticationProtocol">
           <mat-option value="MD5">MD5</mat-option>
           <mat-option value="SHA">SHA</mat-option>
         </mat-select>
@@ -54,7 +54,7 @@
     </div>
     <mat-form-field class = "last">
       <mat-label>Authentication Password</mat-label>
-      <input required matInput [(ngModel)]="AuthenticationPassword">
+      <input required [type]="'password'" matInput [(ngModel)]="AuthenticationPassword">
     </mat-form-field>
   </section>
 </mat-dialog-content>
