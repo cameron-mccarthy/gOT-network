@@ -9,7 +9,6 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { Device } from '../interfaces/device';
 
 @Component({
   selector: 'app-delete-dialog',

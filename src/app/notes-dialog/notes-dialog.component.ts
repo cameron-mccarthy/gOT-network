@@ -13,7 +13,7 @@ import { Device } from '../interfaces/device';
 
 @Component({
   selector: 'app-notes-dialog',
-  imports: [MatDialogContent, MatDialogTitle, MatDialogActions, MatButtonModule ],
+  imports: [MatDialogContent, MatDialogTitle, MatDialogActions, MatButtonModule],
   templateUrl: './notes-dialog.component.html',
   styleUrl: './notes-dialog.component.css'
 })

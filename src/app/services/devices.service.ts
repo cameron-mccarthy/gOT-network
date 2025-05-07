@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Device } from '../interfaces/device';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Vulnerability } from '../interfaces/vulnerability';
 import { VulnerabilityService } from './vulnerability.service';
 
 @Injectable({
@@ -30,7 +29,7 @@ export class DevicesService {
 
   addDevice(newDevice: Device) {
     const url = this.url + 'addDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(newDevice, error)}})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {{this.addAlert(error)}})
   }
 
   deleteDevice(deleteDev: Device) {
@@ -40,7 +39,7 @@ export class DevicesService {
 
   editDevice(newDevice: Device) {
     const url = this.url + 'editDev';
-    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(newDevice, error)})
+    this.http.post(url, newDevice).subscribe(() => {this.loadDevices()}, error => {this.addAlert(error)})
   }
 
   scan(scanData: object){
@@ -48,7 +47,7 @@ export class DevicesService {
     this.http.post(url, scanData).subscribe(() => {this.loadDevices()}, error => {alert(error.error)})
   }
 
-  addAlert(device: Device, error: any){
+  addAlert(error: any){
     if (error.status == 409){
       alert(error.error);
     }

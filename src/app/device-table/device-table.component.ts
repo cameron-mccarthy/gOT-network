@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { DevicesService } from '../services/devices.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Device } from '../interfaces/device';
@@ -10,7 +10,7 @@ import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { NotesDialogComponent } from '../notes-dialog/notes-dialog.component';
-import { ViewChild, AfterViewInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 import { MatInputModule } from '@angular/material/input';
