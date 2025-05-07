@@ -21,6 +21,7 @@ export class DevicesService {
     const url = this.url + 'pntDevs';
     this.http.get<Device[]>(url)
       .subscribe(devices => this.devicesSubject.next(devices));
+      this.AlertService.loadAlerts();
   }
 
   addDevice(newDevice: Device) {
@@ -48,6 +49,5 @@ export class DevicesService {
       alert(error.error);
     }
     this.loadDevices();
-    this.AlertService.loadAlerts();
   }
 }
