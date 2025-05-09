@@ -146,15 +146,8 @@ def scanDevs():
 
     if request.method == 'POST':
         data = request.json
-        print(data)
-        ip = data.get('IP')
-        version = data.get('Version')
-        snmp_string = data.get('CS')
-        print(f'IP: {ip}, Version: {version}, CS: {snmp_string}')
-        #scanner.getSNMPMAC(ip, community_string=snmp_string)
-        #scanner.getSNMPPort(ip, community_string=snmp_string)
-        #scanner.getSNMPARP(ip, community_string=snmp_string)
-        #scanner.getVendor()
+        print(f'Data: {data}')
+        scanner.scan(data)
         return jsonify(success=True)
 
 db.setupDevicesDB()
